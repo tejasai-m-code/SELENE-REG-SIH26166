@@ -23,7 +23,7 @@ Different lunar images of the same region may look significantly different becau
 
 SELENE-REG is designed to address these challenges through a structured image-registration workflow.
 
-![SELENE-REG Prototype](images/Image%20Analysis%20Registration-2026-09-15-062728.png)
+![SELENE-REG Prototype](images/Image Analysis Registration-2026-09-15-074904.png)
 
 ---
 
