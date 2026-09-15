@@ -1,0 +1,3 @@
+Prototype code created for academic/SIH development.
+Mission data remains subject to the data policies and terms of its respective provider.
+Do not redistribute ISRO/LROC mission data inside this project without permission.

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SELENE-REG | Lunar Image Registration</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="stars"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">◒</div>
+      <div>
+        <div class="brand-name">SELENE<span>-REG</span></div>
+        <div class="brand-sub">LUNAR IMAGE CORRESPONDENCE ENGINE</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="pill">SIH 26166</span>
+      <span class="status-dot"></span><span>ENGINE ONLINE</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">ISRO • SPACE TECHNOLOGY • IMAGE REGISTRATION</p>
+        <h1>Multi-modal lunar image<br><em>correspondence & registration.</em></h1>
+        <p class="hero-copy">
+          Register Chandrayaan-2 optical imagery against lunar reference imagery
+          under illumination, viewpoint and scale variation.
+        </p>
+      </div>
+      <div class="hero-orbit">
+        <div class="moon"></div>
+        <div class="orbit orbit-a"></div>
+        <div class="orbit orbit-b"></div>
+      </div>
+    </section>
+
+    <section class="workflow">
+      <div class="step active"><b>01</b><span>INGEST</span></div>
+      <div class="line"></div>
+      <div class="step"><b>02</b><span>CORRESPOND</span></div>
+      <div class="line"></div>
+      <div class="step"><b>03</b><span>REGISTER</span></div>
+      <div class="line"></div>
+      <div class="step"><b>04</b><span>EVALUATE</span></div>
+    </section>
+
+    <section class="grid">
+      <div class="panel upload-panel">
+        <div class="panel-title">
+          <div><span class="section-no">01</span><h2>IMAGE INGESTION</h2></div>
+          <span class="small-tag">SOURCE → REFERENCE</span>
+        </div>
+
+        <div class="upload-grid">
+          <label class="dropzone" id="sourceDrop">
+            <input id="sourceInput" type="file" accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff,.webp">
+            <div class="upload-icon">↑</div>
+            <div class="drop-title">SOURCE / MOVING</div>
+            <div class="drop-hint">OHRC · TMC-2 · IIRS · raster export</div>
+            <div class="file-name" id="sourceName">Drop image or browse</div>
+          </label>
+
+          <label class="dropzone" id="referenceDrop">
+            <input id="referenceInput" type="file" accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff,.webp">
+            <div class="upload-icon">◎</div>
+            <div class="drop-title">REFERENCE / FIXED</div>
+            <div class="drop-hint">LROC NAC · WAC · SELENE · raster export</div>
+            <div class="file-name" id="referenceName">Drop image or browse</div>
+          </label>
+        </div>
+
+        <div class="dataset-note">
+          <strong>Scientific data note:</strong>
+          Native PDS products may contain binary image data plus XML labels.
+          Convert/read them through a mission-specific PDS/ISIS ingestion step before using this prototype.
+        </div>
+      </div>
+
+      <aside class="panel settings-panel">
+        <div class="panel-title">
+          <div><span class="section-no">02</span><h2>PIPELINE</h2></div>
+          <span class="small-tag">CONFIG</span>
+        </div>
+
+        <label>Feature detector
+          <select id="detector">
+            <option value="sift">SIFT — robust baseline</option>
+            <option value="orb">ORB — fast baseline</option>
+            <option value="akaze">AKAZE — alternate</option>
+          </select>
+        </label>
+
+        <label>Lowe ratio <span id="ratioValue">0.72</span>
+          <input id="ratio" type="range" min="0.55" max="0.90" step="0.01" value="0.72">
+        </label>
+
+        <label>RANSAC threshold <span id="ransacValue">3.0 px</span>
+          <input id="ransac" type="range" min="0.5" max="10" step="0.5" value="3">
+        </label>
+
+        <label class="check"><input id="illumination" type="checkbox" checked> Illumination normalization</label>
+        <label class="check"><input id="distribution" type="checkbox" checked> Uniform spatial distribution</label>
+        <label class="check"><input id="ecc" type="checkbox" checked> Sub-pixel intensity refinement</label>
+
+        <button class="primary" id="runBtn">
+          <span>RUN REGISTRATION</span><span>→</span>
+        </button>
+        <button class="secondary" id="demoBtn">VIEW RECOMMENDED TEST CASES</button>
+      </aside>
+    </section>
+
+    <section class="panel results-panel">
+      <div class="panel-title">
+        <div><span class="section-no">03</span><h2>RESULTS & EVIDENCE</h2></div>
+        <span class="small-tag" id="resultStatus">WAITING FOR INPUT</span>
+      </div>
+
+      <div id="emptyState" class="empty-state">
+        <div class="crosshair">+</div>
+        <h3>Awaiting a registration run</h3>
+        <p>Upload a source and reference image, then run the pipeline.</p>
+      </div>
+
+      <div id="results" class="hidden">
+        <div class="metric-grid">
+          <div class="metric"><span>RMSE</span><strong id="rmse">—</strong><small>pixels</small></div>
+          <div class="metric"><span>INLIERS</span><strong id="inliers">—</strong><small>verified correspondences</small></div>
+          <div class="metric"><span>INLIER RATIO</span><strong id="inlierRatio">—</strong><small>geometric consistency</small></div>
+          <div class="metric"><span>SPATIAL COVERAGE</span><strong id="coverage">—</strong><small>4 × 4 occupied grid</small></div>
+        </div>
+
+        <div class="evidence-grid">
+          <div class="image-card">
+            <div class="image-head"><span>REGISTERED PRODUCT</span><a id="registeredLink" target="_blank">OPEN ↗</a></div>
+            <div class="image-frame"><img id="registeredImage" alt="Registered output"></div>
+          </div>
+          <div class="image-card">
+            <div class="image-head"><span>CORRESPONDENCE / INLIERS</span><a id="matchesLink" target="_blank">OPEN ↗</a></div>
+            <div class="image-frame"><img id="matchesImage" alt="Match visualization"></div>
+          </div>
+        </div>
+
+        <div class="technical">
+          <div>
+            <span class="tech-label">HOMOGRAPHY</span>
+            <pre id="homography"></pre>
+          </div>
+          <div>
+            <span class="tech-label">PIPELINE TRACE</span>
+            <ol id="pipeline"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="info-strip">
+      <div><b>28 cm</b><span>OHRC nominal spatial resolution</span></div>
+      <div><b>5 m</b><span>TMC nominal spatial resolution</span></div>
+      <div><b>80 m</b><span>IIRS nominal spatial resolution</span></div>
+      <div><b>RMSE</b><span>registration quality metric</span></div>
+      <div><b>RANSAC</b><span>geometric outlier rejection</span></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>SELENE-REG • SIH26166 PROTOTYPE</span>
+    <span>FastAPI + OpenCV + Vanilla JS</span>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

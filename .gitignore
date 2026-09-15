@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+backend/venv/
+
+# Environment / secrets
+.env
+.env.*
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# Runtime uploads and generated outputs
+backend/uploads/*
+backend/outputs/*
+
+# Keep directory structure in Git
+!backend/uploads/.gitkeep
+!backend/outputs/.gitkeep
