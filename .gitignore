@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+backend/venv/
+
+# Environment / secrets
+.env
+.env.*
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# Runtime uploads and generated outputs
+backend/uploads/*
+backend/outputs/*
+backend/cache/*
+
+# Keep directory structure in Git
+!backend/uploads/.gitkeep
+!backend/outputs/.gitkeep
+!backend/cache/.gitkeep
+
+# Development/test artifacts
+cache_test/
+cache_test_*/
+temp.png
+test_src.png
+test_ref.png
+debug_*.py
+fix*.py
+patch_*.py
+update_*.py
+add_serializer.py
+append_css.py
+write_js.py

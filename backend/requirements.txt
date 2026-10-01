@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+opencv-contrib-python
+numpy
+python-multipart
+torch
+kornia

@@ -1,0 +1,3 @@
+SELENE-REG SIH26166 FINAL LOCAL PROTOTYPE
+Release: 2026.09
+Phase: 7 packaging complete

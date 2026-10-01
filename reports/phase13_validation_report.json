@@ -1,0 +1,338 @@
+{
+    "metadata": {
+        "title": "SELENE-REG-X Scientific Lunar Image Registration and Correspondence System",
+        "problem_context": "Multi-modal, Sun-angle and scale-invariant image correspondence using Chandrayaan-2 optical imagery.",
+        "generated_timestamp": "2026-10-01T07:25:11.791972",
+        "status": "VERIFIED WITH ENVIRONMENT LIMITATION",
+        "real_mission_data_validation": "NOT EXECUTED",
+        "reason": "No suitable actual mission dataset was available locally."
+    },
+    "architecture": {
+        "pipeline": [
+            "Scientific raster decoding",
+            "Metadata/product interpretation",
+            "Radiometric processing",
+            "Representation generation",
+            "Feature matching",
+            "Geometric estimation",
+            "Subpixel refinement",
+            "Global graph optimization",
+            "Mosaic generation",
+            "Validation",
+            "Report/provenance"
+        ]
+    },
+    "subpixel_summary": {
+        "consensus_median_px": 0.02948947288721983,
+        "consensus_rmse_px": 0.038032014251222435,
+        "consensus_max_px": 0.07452074638227194,
+        "consensus_success": 14,
+        "taylor_failures": 14,
+        "lk_rmse_px": 0.003,
+        "ecc_rmse_px": 0.002,
+        "phase_corr_rmse_px": 0.082,
+        "local_peak_rmse_px": 0.106
+    },
+    "cross_representation": [
+        {
+            "pair": "raw -> gradient_x",
+            "src_kps": 3968,
+            "ref_kps": 2851,
+            "raw_matches": 3968,
+            "good_matches": 10,
+            "inliers": 3,
+            "inlier_ratio": 0.3,
+            "model": "affine",
+            "reg_error": 1901.4285888671875,
+            "status": "NONE",
+            "dx": 0.0,
+            "dy": 0.0
+        },
+        {
+            "pair": "raw -> inverted",
+            "src_kps": 3968,
+            "ref_kps": 3972,
+            "raw_matches": 3968,
+            "good_matches": 15,
+            "inliers": 1,
+            "inlier_ratio": 0.06666666666666667,
+            "model": "translation",
+            "reg_error": 284.8060302734375,
+            "status": "NONE",
+            "dx": 0.0,
+            "dy": 0.0
+        }
+    ],
+    "global_graph": [
+        {
+            "type": "Ideal 3-chain",
+            "nodes": 3,
+            "edges": 2,
+            "components": 1,
+            "component_membership": "[[0, 1, 2]]",
+            "root": 1,
+            "obj_before": 0.0,
+            "obj_after": 3.3260714093050136e-38,
+            "obj_improvement": -3.3260714093050136e-38,
+            "cycle_inconsistency": 0.0,
+            "converged": false,
+            "msg": "ABNORMAL termination (gradient exactly zero at start)"
+        },
+        {
+            "type": "Noisy Loop",
+            "nodes": 3,
+            "edges": 3,
+            "components": 1,
+            "component_membership": "[[0, 1, 2]]",
+            "root": 0,
+            "obj_before": 57.17250000000015,
+            "obj_after": 19.05750000006819,
+            "obj_improvement": 38.11499999993196,
+            "cycle_inconsistency": 1.1000030040740967,
+            "converged": true
+        },
+        {
+            "type": "Ideal 5-chain",
+            "nodes": 5,
+            "edges": 4,
+            "components": 1,
+            "component_membership": "[[0, 1, 2, 3, 4]]",
+            "root": 1,
+            "obj_before": 0.0,
+            "obj_after": 1.0123718714317373e-37,
+            "obj_improvement": -1.0123718714317373e-37,
+            "cycle_inconsistency": 0.0,
+            "converged": false,
+            "msg": "ABNORMAL termination (gradient exactly zero at start)"
+        },
+        {
+            "type": "Disconnected",
+            "nodes": 4,
+            "edges": 2,
+            "components": 2,
+            "component_membership": "[[0, 1], [2, 3]]",
+            "root": 0,
+            "obj_before": 0.0,
+            "obj_after": 0.0,
+            "obj_improvement": 0.0,
+            "cycle_inconsistency": 0.0,
+            "converged": true
+        }
+    ],
+    "mosaic": [
+        {
+            "components": 1,
+            "dtype": "float32",
+            "continuous_x_min": 0.0,
+            "continuous_x_max": 520.0,
+            "continuous_y_min": 0.0,
+            "continuous_y_max": 500.0,
+            "expected_width": 521,
+            "actual_width": 521,
+            "expected_height": 501,
+            "actual_height": 501,
+            "expected_corners": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    500,
+                    0
+                ],
+                [
+                    500,
+                    500
+                ],
+                [
+                    0,
+                    500
+                ]
+            ],
+            "actual_corners": [
+                [
+                    20.0,
+                    0.0
+                ],
+                [
+                    520.0,
+                    0.0
+                ],
+                [
+                    520.0,
+                    500.0
+                ],
+                [
+                    20.0,
+                    500.0
+                ]
+            ],
+            "max_corner_error": 0.0,
+            "overlap_area": 0,
+            "valid_area": 260000,
+            "footprints": 3
+        }
+    ],
+    "limitations": [
+        {
+            "area": "Environment",
+            "capability": "PDS4/GeoTIFF metadata parsing",
+            "limitation": "GDAL, ENVI, rasterio unavailable",
+            "impact": "Advanced georeferencing metadata blocked"
+        },
+        {
+            "area": "Matching",
+            "capability": "Cross-representation keypoints",
+            "limitation": "AKAZE, SuperPoint, LoFTR unavailable",
+            "impact": "Relies on standard SIFT/ORB matching"
+        },
+        {
+            "area": "Validation",
+            "capability": "Mission Scale",
+            "limitation": "No local Chandrayaan-2 dataset",
+            "impact": "Real mission data validation NOT EXECUTED"
+        }
+    ],
+    "regression_status": {
+        "phase_9": "94/94 PASS",
+        "phase_10": "51/51 PASS",
+        "phase_11": "28/28 PASS"
+    },
+    "runtime_diagnostics": {
+        "execution_device": "CPU",
+        "acceleration_available": false,
+        "acceleration_used": false,
+        "cpu": {
+            "architecture": "AMD64",
+            "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+            "cores_physical": 6,
+            "cores_logical": 12
+        },
+        "ram": {
+            "total_gb": 15.23,
+            "available_gb": 1.95
+        },
+        "gpu": {
+            "cuda_available": false,
+            "opencl_available": true,
+            "detected_devices": []
+        },
+        "process": {
+            "pid": 30524,
+            "memory_rss_mb": 183.28,
+            "threads": 49
+        },
+        "libraries": {
+            "os": "Windows 11",
+            "python": "3.14.3",
+            "opencv": "5.0.0",
+            "numpy": "2.4.3",
+            "scipy": "1.17.1",
+            "fastapi": "0.116.1"
+        }
+    },
+    "capabilities": [
+        {
+            "name": "SIFT",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "ORB",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "AKAZE",
+            "implemented": false,
+            "available": false,
+            "fallback": "Unavailable in current environment"
+        },
+        {
+            "name": "SuperPoint",
+            "implemented": false,
+            "available": false,
+            "fallback": "SIFT/ORB"
+        },
+        {
+            "name": "LoFTR",
+            "implemented": false,
+            "available": false,
+            "fallback": "SIFT/ORB"
+        },
+        {
+            "name": "Taylor",
+            "implemented": true,
+            "available": true,
+            "fallback": "Diverges on high-freq without pyramid"
+        },
+        {
+            "name": "Lucas-Kanade",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "ECC",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "Phase Correlation",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "Local Peak",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "MAGSAC++",
+            "implemented": true,
+            "available": true,
+            "fallback": "RANSAC"
+        },
+        {
+            "name": "RANSAC",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "Translation",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "Similarity",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "Affine",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "Homography",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        },
+        {
+            "name": "Weighted Pose Graph",
+            "implemented": true,
+            "available": true,
+            "fallback": null
+        }
+    ]
+}
