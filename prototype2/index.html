@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SELENE-REG | Lunar Image Registration</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="grid-bg"></div>
+  <div class="grid-bg"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">◒</div>
+      <div>
+        <div class="brand-name">SELENE<span>-REG</span></div>
+        <div class="brand-sub">LUNAR IMAGE CORRESPONDENCE ENGINE</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="pill">SIH 26166</span>
+      <span class="status-dot"></span><span>ENGINE ONLINE</span>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <section class="hero-container">
+      <div class="hero-left">
+        <p class="eyebrow">ISRO SPACE TECHNOLOGY</p>
+        <h1>Multi-modal lunar image<br><em>correspondence & registration.</em></h1>
+        <p>A resilient coarse-to-fine pipeline for Chandrayaan-2 optical imagery featuring scale, illumination, and cross-representation invariance.</p>
+      </div>
+      <div class="hero-center">
+        <div class="moon-anchor"></div>
+      </div>
+      <div class="hero-right">
+        <p class="eyebrow">SCIENTIFIC WORKSTATION</p>
+        <p>Black space. Lunar data. Measurable evidence. Proceed below to ingest scientific datasets and compute subpixel consensus registration.</p>
+        <div class="nav-links" style="flex-direction:column; gap:0.5rem; font-family:var(--font-mono);">
+          <a href="#pairWorkspace">01. PAIR REGISTRATION</a>
+          <a href="#multiWorkspace">02. MULTI-IMAGE GRAPH</a>
+          <a href="#diagnosticsPanel">03. DIAGNOSTICS & RUNTIME</a>
+        </div>
+      </div>
+    </section>
+    
+    <section class="workflow-tracker">
+      <div class="workflow-step active"><span class="step-no">01</span><span class="step-name">INGEST</span><span class="step-status">READY</span></div>
+      <div class="workflow-step"><span class="step-no">02</span><span class="step-name">CORRESPOND</span><span class="step-status">WAITING</span></div>
+      <div class="workflow-step"><span class="step-no">03</span><span class="step-name">REGISTER</span><span class="step-status">WAITING</span></div>
+      <div class="workflow-step"><span class="step-no">04</span><span class="step-name">EVALUATE</span><span class="step-status">WAITING</span></div>
+    </section>
+
+
+    <section class="mode-switch" aria-label="Registration mode">
+      <button class="mode-button active" data-mode="pair">PAIR REGISTRATION</button>
+      <button class="mode-button" data-mode="multi">MULTI-IMAGE MAP BUILDER</button>
+    </section>
+
+    <div id="pairMode">
+    <section class="workflow">
+      <div class="step active"><b>01</b><span>INGEST</span></div>
+      <div class="line"></div>
+      <div class="step"><b>02</b><span>CORRESPOND</span></div>
+      <div class="line"></div>
+      <div class="step"><b>03</b><span>REGISTER</span></div>
+      <div class="line"></div>
+      <div class="step"><b>04</b><span>EVALUATE</span></div>
+    </section>
+
+    <section class="grid">
+      <div class="panel upload-panel">
+        <div class="panel-title">
+          <div><span class="section-no">01</span><h2>IMAGE INGESTION</h2></div>
+          <span class="small-tag">SOURCE → REFERENCE</span>
+        </div>
+
+        <div class="upload-grid">
+          <label class="dropzone" id="sourceDrop">
+            <input id="sourceInput" type="file" accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff,.webp">
+            <div class="upload-icon">↑</div>
+            <div class="drop-title">SOURCE / MOVING</div>
+            <div class="drop-hint">OHRC · TMC-2 · IIRS · raster export</div>
+            <div class="file-name" id="sourceName">Drop image or browse</div>
+          </label>
+
+          <label class="dropzone" id="referenceDrop">
+            <input id="referenceInput" type="file" accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff,.webp">
+            <div class="upload-icon">◎</div>
+            <div class="drop-title">REFERENCE / FIXED</div>
+            <div class="drop-hint">LROC NAC · WAC · SELENE · raster export</div>
+            <div class="file-name" id="referenceName">Drop image or browse</div>
+          </label>
+        </div>
+
+        <div class="dataset-note">
+          <strong>Scientific data note:</strong>
+          Native PDS products may contain binary image data plus XML labels.
+          Convert/read them through a mission-specific PDS/ISIS ingestion step before using this prototype.
+        </div>
+      </div>
+
+      <aside class="panel settings-panel">
+        <div class="panel-title">
+          <div><span class="section-no">02</span><h2>PIPELINE</h2></div>
+          <span class="small-tag">CONFIG</span>
+        </div>
+
+        <label>Feature detector
+          <select id="detector">
+            <option value="sift">SIFT — robust baseline</option>
+            <option value="orb">ORB — fast baseline</option>
+            <option value="akaze">AKAZE — alternate</option>
+          </select>
+        </label>
+
+        <label>Lowe ratio <span id="ratioValue">0.72</span>
+          <input id="ratio" type="range" min="0.55" max="0.90" step="0.01" value="0.72">
+        </label>
+
+        <label>RANSAC threshold <span id="ransacValue">3.0 px</span>
+          <input id="ransac" type="range" min="0.5" max="10" step="0.5" value="3">
+        </label>
+
+        <label class="check"><input id="illumination" type="checkbox" checked> Illumination normalization</label>
+        <label class="check"><input id="distribution" type="checkbox" checked> Uniform spatial distribution</label>
+        <label class="check"><input id="ecc" type="checkbox" checked> Sub-pixel intensity refinement</label>
+
+        <button class="primary" id="runBtn">
+          <span>RUN REGISTRATION</span><span>→</span>
+        </button>
+        <button class="secondary" id="demoBtn">VIEW RECOMMENDED TEST CASES</button>
+        <button class="secondary accent-secondary" id="robustnessBtn">RUN SYNTHETIC ROBUSTNESS LAB</button>
+      </aside>
+    </section>
+
+    <section class="panel results-panel">
+      <div class="panel-title">
+        <div><span class="section-no">03</span><h2>RESULTS & EVIDENCE</h2></div>
+        <span class="small-tag" id="resultStatus">WAITING FOR INPUT</span>
+      </div>
+
+      <div id="emptyState" class="empty-state">
+        <div class="crosshair">+</div>
+        <h3>Awaiting a registration run</h3>
+        <p>Upload a source and reference image, then run the pipeline.</p>
+      </div>
+
+      <div id="results" class="hidden">
+        <div class="metric-grid">
+          <div class="metric"><span>RMSE</span><strong id="rmse">—</strong><small>pixels</small></div>
+          <div class="metric"><span>INLIERS</span><strong id="inliers">—</strong><small>verified correspondences</small></div>
+          <div class="metric"><span>INLIER RATIO</span><strong id="inlierRatio">—</strong><small>geometric consistency</small></div>
+          <div class="metric"><span>SPATIAL COVERAGE</span><strong id="coverage">—</strong><small>4 × 4 occupied grid</small></div>
+        </div>
+
+        <div class="inspector-container" id="matchInspectorContainer">
+          <div class="inspector-header">
+            <span>MATCH POINT INSPECTOR & OVERLAY</span>
+            <div class="legend-item"><div class="legend-color" style="background:#7cf2bd"></div>Inlier</div>
+            <div class="legend-item"><div class="legend-color" style="background:#f27c7c"></div>Outlier</div>
+            <div class="legend-item"><div class="legend-color" style="background:#ffeb3b"></div>Selected</div>
+            <div class="legend-item"><div class="legend-color" style="height:2px;border-radius:0;background:#7cf2bd"></div>Residual Vector</div>
+          </div>
+          
+          <div class="inspector-controls">
+            <label><input type="checkbox" id="inspShowRef" checked> Reference</label>
+            <label><input type="checkbox" id="inspShowReg" checked> Transformed Source</label>
+            <label>Source Opacity <input type="range" id="inspOpacityReg" min="0" max="1" step="0.05" value="0.5"></label>
+            <label>
+              Filter:
+              <select id="inspFilter" style="background:#111a2b; color:#edf3ff; border:1px solid #333; padding:4px;">
+                <option value="all">All matches</option>
+                <option value="inliers">Inliers only</option>
+                <option value="outliers">Outliers only</option>
+                <option value="high_confidence">High confidence (pair)</option>
+                <option value="low_confidence">Low confidence (pair)</option>
+              </select>
+            </label>
+            <label><input type="checkbox" id="inspShowResiduals" checked> Residual Vectors</label>
+            <button id="inspReset" style="background:#1a2639; color:#edf3ff; border:1px solid #333; padding:4px 8px; cursor:pointer;">Fit View / Reset Camera</button>
+          </div>
+          
+          <div class="inspector-main">
+            <div class="inspector-canvas-wrapper">
+              <canvas id="inspectorCanvas" class="inspector-canvas"></canvas>
+            </div>
+            
+            <div class="inspector-sidebar">
+              <div class="inspector-panel" id="inspPointInfo">
+                <p style="color:#8892b0; font-size:12px">Click a correspondence point in the overlay to inspect it.</p>
+              </div>
+              <div class="inspector-panel" id="inspTransformInfo">
+                <p style="color:#8892b0; font-size:12px">Run registration to see transform details.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="image-card">
+            <div class="image-head"><span>CORRESPONDENCE / INLIERS</span><a id="matchesLink" target="_blank">OPEN ↗</a></div>
+            <div class="image-frame"><img id="matchesImage" alt="Match visualization"></div>
+          </div>
+        </div>
+
+        <div class="technical">
+          <div>
+            <span class="tech-label">HOMOGRAPHY</span>
+            <pre id="homography"></pre>
+          </div>
+          <div>
+            <span class="tech-label">PIPELINE TRACE</span>
+            <ol id="pipeline"></ol>
+          </div>
+        </div>
+        <section id="robustnessPanel" class="robustness-panel hidden">
+          <div class="analytics-heading">
+            <div><span class="section-no">R1</span><h2>SYNTHETIC ROBUSTNESS LAB</h2></div>
+            <span id="robustnessStatus" class="small-tag">CONTROLLED STRESS TEST</span>
+          </div>
+          <div class="robustness-summary">
+            <div><span>CASES PASSED</span><b id="robustnessPassed">—</b></div>
+            <div><span>TOTAL CASES</span><b id="robustnessTotal">—</b></div>
+            <div><span>ELAPSED</span><b id="robustnessTime">—</b></div>
+            <div><span>SCOPE</span><b>SYNTHETIC</b></div>
+          </div>
+          <div id="robustnessTable" class="robustness-table"></div>
+          <p class="analytics-note">Controlled rotation, scale, illumination, blur and noise perturbations. This is a software stress test, not cross-mission scientific validation.</p>
+        </section>
+      </div>
+    </section>
+    </div>
+
+    <section id="multiMode" class="hidden">
+      <section class="workflow multi-workflow">
+        <div class="step active"><b>01</b><span>COLLECT</span></div><div class="line"></div>
+        <div class="step"><b>02</b><span>SCREEN</span></div><div class="line"></div>
+        <div class="step"><b>03</b><span>GRAPH</span></div><div class="line"></div>
+        <div class="step"><b>04</b><span>MAP</span></div>
+      </section>
+      <section class="panel multi-ingest">
+        <div class="panel-title"><div><span class="section-no">M1</span><h2>MULTI-IMAGE LUNAR REGISTRATION &amp; MAPPING</h2></div><span class="small-tag">RELATIVE IMAGE SPACE</span></div>
+        <label class="multi-drop" id="multiDrop">
+          <input id="multiInput" type="file" multiple accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff,.webp">
+          <span class="upload-icon">◫</span><strong>DROP A LUNAR IMAGE COLLECTION</strong><small>2–12 raster images · thumbnails are generated locally</small>
+        </label>
+        <div id="multiGallery" class="multi-gallery"><p class="gallery-empty">No images selected. Metadata remains “Unknown / Not provided” unless you add it later.</p></div>
+        <div class="multi-actions"><button class="primary" id="analyzeSetBtn"><span>ANALYZE IMAGE SET</span><span>→</span></button><span id="multiProgress" class="small-tag">WAITING FOR COLLECTION</span></div>
+      </section>
+      <section id="multiResults" class="panel results-panel hidden">
+        <div class="panel-title"><div><span class="section-no">M2</span><h2>REGISTRATION GRAPH &amp; RELATIVE MOSAIC</h2></div><span class="small-tag" id="multiStatus">WAITING</span></div>
+        <div class="metric-grid multi-metrics">
+          <div class="metric"><span>IMAGES</span><strong id="multiImages">—</strong></div><div class="metric"><span>CANDIDATE PAIRS</span><strong id="candidatePairs">—</strong></div>
+          <div class="metric"><span>ACCEPTED PAIRS</span><strong id="acceptedPairs">—</strong></div><div class="metric"><span>PLACED IMAGES</span><strong id="placedImages">—</strong></div>
+        </div>
+        <section class="analytics-panel">
+          <div class="analytics-heading"><div><span class="section-no">M3</span><h2>REGISTRATION ANALYTICS</h2></div><span id="processingDevice" class="small-tag">DEVICE: —</span></div>
+          <div class="analytics-kpis">
+            <div><span>IMAGES</span><b id="analyticsImages">—</b></div><div><span>REGISTERED</span><b id="analyticsRegistered">—</b></div>
+            <div><span>AVG INLIERS</span><b id="analyticsInliers">—</b></div><div><span>AVG INLIER RATIO</span><b id="analyticsRatio">—</b></div>
+            <div><span>RMSE · MEAN</span><b id="analyticsRmse">—</b></div><div><span>SPATIAL COVERAGE</span><b id="analyticsCoverage">—</b></div>
+            <div><span>GRAPH CONNECTIVITY</span><b id="analyticsConnectivity">—</b></div><div><span>PROCESSING TIME</span><b id="analyticsTime">—</b></div>
+            <div><span>ACCEPTED / PROCESSED</span><b id="analyticsPairs">—</b></div><div><span>CACHE HITS / MISSES</span><b id="analyticsCache">—</b></div><div><span>DEVICE</span><b id="analyticsDevice">—</b></div>
+          </div>
+          <div class="analytics-charts">
+            <div class="chart-card"><span>PAIR OUTCOMES</span><div id="outcomeChart" class="bar-chart"></div></div>
+            <div class="chart-card"><span>INLIERS BY ACCEPTED PAIR</span><div id="inlierChart" class="bar-chart"></div></div>
+            <div class="chart-card"><span>RMSE BY ACCEPTED PAIR</span><div id="rmseChart" class="bar-chart"></div></div>
+          </div>
+          <p id="analyticsNote" class="analytics-note">Metrics appear after a completed multi-image registration run.</p>
+        </section>
+        <div class="multi-layout">
+          <div class="image-card"><div class="image-head"><span>REGISTRATION GRAPH — CLICK AN EDGE TO INSPECT</span></div><canvas id="graphCanvas" width="640" height="360"></canvas><div id="edgeDetails" class="edge-details">No selected pair.</div></div>
+          <div class="image-card"><div class="image-head"><span id="mosaicLabel">RELATIVE REGISTERED LUNAR MOSAIC</span><span><button id="open3DBtn" class="inline-action">OPEN REGISTERED MOSAIC IN 3D</button> <a id="mosaicLink" target="_blank">DOWNLOAD PNG ↗</a></span></div><div class="map-controls"><button id="zoomOut">−</button><button id="zoomReset">FIT</button><button id="zoomIn">+</button><label><input id="footprintsToggle" type="checkbox" checked> footprints</label><label class="toggle-chip"><input id="matchPointsToggle" type="checkbox"> MATCH POINTS</label><span id="matchLegend" class="match-legend" hidden><i></i> INLIERS</span></div><div class="mosaic-stage" id="mosaicStage"><img id="mosaicImage" alt="Relative registered lunar mosaic"><svg id="footprintsOverlay"></svg><svg id="matchPointsOverlay"></svg></div></div>
+        </div>
+        <div class="export-row"><a id="graphExport" target="_blank">DOWNLOAD GRAPH JSON</a><a id="metricsExport" target="_blank">DOWNLOAD PAIR METRICS CSV</a><a id="reportExport" target="_blank">DOWNLOAD SCIENTIFIC REPORT JSON</a><span>Relative image-space product only — geographic coordinates require reference control data.</span></div>
+        <div class="pair-table-wrap"><div class="image-head"><span>PAIR EVALUATION</span></div><table id="pairTable"><thead><tr><th>PAIR</th><th>STATUS</th><th>INLIERS</th><th>RATIO</th><th>RMSE</th><th>COVERAGE</th><th>ECC</th><th>CACHE</th></tr></thead><tbody><tr><td colspan="8">Run a collection to view real pair evidence.</td></tr></tbody></table></div>
+        <section id="pairInspector" class="inspector hidden"><div class="image-head"><span>PAIR INSPECTOR</span><span id="inspectorStatus">SELECT A GRAPH EDGE</span></div><div class="inspector-grid"><div id="inspectorMetrics">No pair selected.</div><div><span class="tech-label">SPATIAL INLIER DISTRIBUTION</span><div id="spatialGrid" class="spatial-grid"></div><p id="spatialGridNote" class="analytics-note">Actual 4 × 4 source-image inlier counts appear here.</p></div></div></section>
+        <section class="diagnostics-grid">
+          <div><span class="tech-label">PROCESSING DIAGNOSTICS</span><div id="stageTimings">N/A</div></div>
+          <div><span class="tech-label">CACHE PERFORMANCE</span><div id="cacheDiagnostics">N/A</div></div>
+          <div><span class="tech-label">SENSOR METADATA SUMMARY</span><div id="sensorSummary">N/A</div></div>
+          <div><span class="tech-label">SCIENTIFIC SCOPE</span><p>Relative image-space registration is computed from image evidence. Geographic coordinates, spacecraft geometry and map projection are not fabricated when control metadata is absent.</p></div>
+        </section>
+        <section class="capability-grid">
+          <div class="capability"><b>✓</b><span>Illumination-normalized preprocessing</span><small>Percentile normalization + CLAHE/detail enhancement</small></div>
+          <div class="capability"><b>✓</b><span>Geometric verification</span><small>SIFT / ORB / AKAZE + Lowe ratio + RANSAC</small></div>
+          <div class="capability"><b>✓</b><span>Sub-pixel refinement</span><small>ECC refinement when convergence is valid</small></div>
+          <div class="capability"><b>✓</b><span>Incremental caching</span><small>Image, feature and pair evidence reuse</small></div>
+          <div class="capability"><b>✓</b><span>Spatial match quality</span><small>Real 4 × 4 inlier occupancy and coverage</small></div>
+          <div class="capability"><b>!</b><span>Georeferencing</span><small>Requires mission control points / metadata</small></div>
+        </section>
+      </section>
+    </section>
+
+
+    <section id="explorer3D" class="panel explorer-panel hidden">
+      <div class="panel-title">
+        <div><span class="section-no">3D</span><h2>REGISTERED MOSAIC — 3D LUNAR EXPLORER</h2></div>
+        <span id="explorerStatus" class="small-tag">RELATIVE REGISTERED TERRAIN</span>
+      </div>
+      <div class="explorer-layout">
+        <div class="explorer-viewport">
+          <canvas id="terrainCanvas" aria-label="Interactive 3D registered lunar terrain"></canvas>
+          <div class="terrain-hud">
+            <span>TEXTURE: <b id="terrainTextureStatus">WAITING</b></span>
+            <span>COORDINATES: <b id="terrainCoordinateStatus">UNAVAILABLE — NO GEOREFERENCE</b></span>
+          </div>
+        </div>
+        <aside class="explorer-side">
+          <div class="explorer-block"><span class="tech-label">DATA LINK</span><p>The texture below is the actual relative registered mosaic generated by this job. It is not a decorative Moon texture.</p></div>
+          <div class="explorer-block"><span class="tech-label">TERRAIN MODE</span>
+            <label class="check"><input id="terrainDisplacement" type="checkbox" checked> Image-derived relative relief</label>
+            <label class="check"><input id="terrainGrid" type="checkbox" checked> Reference grid</label>
+            <label>Terrain exaggeration <span id="terrainExaggerationValue">0.22×</span>
+              <input id="terrainExaggeration" type="range" min="0" max="0.6" step="0.01" value="0.22">
+            </label>
+          </div>
+          <div class="explorer-block"><span class="tech-label">SURFACE READOUT</span>
+            <div class="terrain-readout"><div><span>X</span><b id="terrainX">—</b></div><div><span>Y</span><b id="terrainY">—</b></div><div><span>ELEVATION</span><b id="terrainZ">—</b></div></div>
+            <p class="analytics-note">Latitude/longitude remain unavailable until valid lunar georeferencing/control metadata is supplied. No coordinates are fabricated.</p>
+          </div>
+          <div class="explorer-actions">
+            <button class="secondary" id="terrainReset">RESET CAMERA</button>
+            <button class="secondary" id="terrainTop">TOP VIEW</button>
+            <button class="secondary" id="terrainOrbit">AUTO ORBIT</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="info-strip">
+      <div><b>28 cm</b><span>OHRC nominal spatial resolution</span></div>
+      <div><b>5 m</b><span>TMC nominal spatial resolution</span></div>
+      <div><b>80 m</b><span>IIRS nominal spatial resolution</span></div>
+      <div><b>RMSE</b><span>registration quality metric</span></div>
+      <div><b>RANSAC</b><span>geometric outlier rejection</span></div>
+    </section>
+  
+    <section id="diagnosticsPanel" class="workspace panel">
+      <div class="panel-head"><span>PHASE 15 RUNTIME DIAGNOSTICS & PROVENANCE</span><button id="loadDiagnosticsBtn" class="primary" style="padding:4px 8px;">REFRESH TELEMETRY</button></div>
+      <div class="diag-grid" id="diagGridContainer">
+        <div class="diag-card"><h4>EXECUTION DEVICE</h4><ul id="diagDevice"><li><span>DEVICE</span><span>CPU</span></li></ul></div>
+        <div class="diag-card"><h4>ENVIRONMENT</h4><ul id="diagEnv"><li><span>SYSTEM</span><span>Loading...</span></li></ul></div>
+        <div class="diag-card"><h4>CAPABILITIES</h4><ul id="diagCaps"><li><span>SIFT</span><span>Available</span></li></ul></div>
+        <div class="diag-card"><h4>REPORTING</h4><ul><li><span>PHASE 13 SCIENTIFIC REPORT</span><a href="/api/report/phase13/pdf" target="_blank" style="color:var(--accent);">DOWNLOAD PDF</a></li><li><span>METRICS</span><a href="/api/report/phase13" target="_blank" style="color:var(--accent);">VIEW JSON</a></li></ul></div>
+      </div>
+      <div class="panel-head" style="margin-top:2rem;"><span>PHASE 12 SYNTHETIC VALIDATION (CONSENSUS)</span></div>
+      <div class="diag-grid">
+         <div class="diag-card"><h4>RMSE</h4><ul><li><span>CONSENSUS</span><span>0.038 px</span></li></ul></div>
+         <div class="diag-card"><h4>MEDIAN ERROR</h4><ul><li><span>CONSENSUS</span><span>0.029 px</span></li></ul></div>
+         <div class="diag-card"><h4>MAX ERROR</h4><ul><li><span>CONSENSUS</span><span>0.075 px</span></li></ul></div>
+         <div class="diag-card"><h4>TAYLOR FAILURES</h4><ul><li><span>DIVERGENCES</span><span>14 / 14</span></li></ul></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>SELENE-REG • SIH26166 PROTOTYPE</span>
+    <span>FastAPI + OpenCV + Vanilla JS</span>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

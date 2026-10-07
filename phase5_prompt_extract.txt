@@ -1,0 +1,92 @@
+# 3. REPLACE IT WITH "SCIENTIFIC CANONICAL MATCH VISUALIZATION"
+
+The primary pair-registration visualization must become:
+
+## SCIENTIFIC CANONICAL MATCH VISUALIZATION
+
+It must show:
+
+LEFT:
+SOURCE / MOVING IMAGE
+
+RIGHT:
+REFERENCE / FIXED IMAGE
+
+The COMPLETE source image and COMPLETE reference image must remain visible.
+
+Do NOT crop either image simply to show overlap.
+
+Draw only scientifically verified correspondence lines.
+
+The visualization should clearly communicate:
+
+> "These pixels/features in the source image correspond to these pixels/features in the reference image."
+
+---
+
+# 4. CORRESPONDENCE LINE RULE — VERY IMPORTANT
+
+The current interface shows green and red lines.
+
+The green lines represent valid/verified correspondences.
+
+The red lines represent rejected/outlier correspondences.
+
+For the primary scientific visualization:
+
+## DO NOT SHOW RED REJECTED LINES.
+
+They create visual noise and make the visualization look incorrect.
+
+Rejected matches may still exist internally for diagnostics, but the primary visualization must contain:
+
+* verified inliers only
+* valid correspondence points only
+* valid correspondence lines only
+
+Use:
+
+GREEN = verified correspondence
+
+Optional secondary colors may be used for:
+
+* selected correspondence
+* hovered correspondence
+* active correspondence
+* confidence categories
+
+But never show rejected/outlier lines in the primary canonical view.
+
+---
+
+# 5. EVERY GREEN LINE MUST BE REAL
+
+Do not draw decorative lines.
+
+For every displayed correspondence:
+
+source point:
+
+(x_s, y_s)
+
+must map to:
+
+(x_r, y_r)
+
+through the actual verified correspondence/geometric model.
+
+The system must verify:
+
+1. source point exists
+2. reference point exists
+3. source point lies inside source image
+4. reference point lies inside reference image
+5. correspondence survived geometric verification
+6. reprojection error is available
+7. confidence is available or explicitly marked unavailable
+8. point is not an internally rejected outlier
+
+Only then may the correspondence be displayed.
+
+---
+

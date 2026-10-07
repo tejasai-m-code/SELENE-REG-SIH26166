@@ -1,0 +1,2155 @@
+<USER_REQUEST>
+# SELENE-REG-X — FINAL MASTER ENGINEERING PROMPT
+
+## SIH 26166 — Complete Scientific Registration, Correspondence, Validation, GPU/CPU and UI Upgrade
+
+You are working on an **EXISTING SELENE-REG-X codebase** for SIH Problem Statement 26166.
+
+This is NOT a request to create a new project.
+
+You must **inspect, repair, upgrade and complete the existing implementation in place**.
+
+---
+
+# 0. ABSOLUTE RULES
+
+## RULE 0.1 — DO NOT REBUILD FROM SCRATCH
+
+Do NOT:
+
+* create a separate project
+* replace the existing architecture unnecessarily
+* throw away working registration code
+* create fake implementations
+* create placeholder buttons
+* create UI elements that do not have working backend functionality
+* claim GPU acceleration when the operation actually ran on CPU
+* display fabricated confidence values
+* display fabricated sensor identification
+* display fabricated validation results
+* display fabricated sub-pixel results
+* display fake scientific metrics
+
+Preserve working components and improve them.
+
+Before changing anything:
+
+1. inspect the complete repository
+2. identify frontend architecture
+3. identify backend architecture
+4. identify image ingestion
+5. identify preprocessing
+6. identify feature extraction
+7. identify feature matching
+8. identify geometric verification
+9. identify pair registration
+10. identify mosaic/graph registration
+11. identify visualization
+12. identify validation page
+13. identify GPU/CPU execution paths
+14. identify every frontend button and its backend dependency
+15. identify broken or dead endpoints
+16. identify every current error
+
+Then establish a baseline.
+
+---
+
+# 1. MAIN OBJECTIVE
+
+Upgrade SELENE-REG-X into a complete, reliable scientific image-correspondence and registration prototype for SIH 26166.
+
+The system must support:
+
+* Chandrayaan-2 image ingestion
+* OHRC / TMC / TMC-2 / IIRS identification where possible
+* LROC / reference imagery identification where possible
+* metadata-aware ingestion
+* image quality inspection
+* bit-depth/band inspection
+* radiometric preprocessing
+* illumination normalization
+* scale/rotation/illumination robust matching
+* feature extraction
+* feature correspondence
+* geometric verification
+* robust outlier rejection
+* canonical correspondence visualization
+* multi-image registration graph
+* mosaic registration
+* sub-pixel refinement
+* point-level inspection
+* confidence estimation
+* residual/error inspection
+* validation
+* GPU acceleration where available
+* CPU + GPU hybrid execution
+* reliable CPU fallback
+* clean scientific UI
+* complete error handling
+
+Every displayed result must correspond to a real computation.
+
+---
+
+# 2. CRITICAL CHANGE — REMOVE THE CURRENT "REGISTERED VIEW" FROM THE PRIMARY UI
+
+The current Registered View is misleading for this project.
+
+It warps the source image into the reference frame and displays only the common/cropped portion.
+
+This is NOT the primary scientific output we want.
+
+The current behavior resembles:
+
+SOURCE
+↓
+warp to reference
+↓
+cropped/common region
+↓
+display
+
+Remove this from the primary user-facing result interface.
+
+Do not make the cropped registered image the main result.
+
+If the warp is still useful internally for numerical verification, it may remain as an internal backend artifact, but it must not be presented as the primary visualization.
+
+---
+
+# 3. REPLACE IT WITH "SCIENTIFIC CANONICAL MATCH VISUALIZATION"
+
+The primary pair-registration visualization must become:
+
+## SCIENTIFIC CANONICAL MATCH VISUALIZATION
+
+It must show:
+
+LEFT:
+SOURCE / MOVING IMAGE
+
+RIGHT:
+REFERENCE / FIXED IMAGE
+
+The COMPLETE source image and COMPLETE reference image must remain visible.
+
+Do NOT crop either image simply to show overlap.
+
+Draw only scientifically verified correspondence lines.
+
+The visualization should clearly communicate:
+
+> "These pixels/features in the source image correspond to these pixels/features in the reference image."
+
+---
+
+# 4. CORRESPONDENCE LINE RULE — VERY IMPORTANT
+
+The current interface shows green and red lines.
+
+The green lines represent valid/verified correspondences.
+
+The red lines represent rejected/outlier correspondences.
+
+For the primary scientific visualization:
+
+## DO NOT SHOW RED REJECTED LINES.
+
+They create visual noise and make the visualization look incorrect.
+
+Rejected matches may still exist internally for diagnostics, but the primary visualization must contain:
+
+* verified inliers only
+* valid correspondence points only
+* valid correspondence lines only
+
+Use:
+
+GREEN = verified correspondence
+
+Optional secondary colors may be used for:
+
+* selected correspondence
+* hovered correspondence
+* active correspondence
+* confidence categories
+
+But never show rejected/outlier lines in the primary canonical view.
+
+---
+
+# 5. EVERY GREEN LINE MUST BE REAL
+
+Do not draw decorative lines.
+
+For every displayed correspondence:
+
+source point:
+
+(x_s, y_s)
+
+must map to:
+
+(x_r, y_r)
+
+through the actual verified correspondence/geometric model.
+
+The system must verify:
+
+1. source point exists
+2. reference point exists
+3. source point lies inside source image
+4. reference point lies inside reference image
+5. correspondence survived geometric verification
+6. reprojection error is available
+7. confidence is available or explicitly marked unavailable
+8. point is not an internally rejected outlier
+
+Only then may the correspondence be displayed.
+
+---
+
+# 6. SMALL SOURCE IMAGE INSIDE LARGE REFERENCE IMAGE
+
+A very important use case is:
+
+SOURCE = small image
+
+REFERENCE = large image
+
+The source image may represent a small region contained inside the reference image.
+
+The visualization must therefore clearly show:
+
+SOURCE:
+
++----------------+
+| small image    |
+|                |
+|   ● ● ● ●      |
+|   ● ● ● ●      |
++----------------+
+
+REFERENCE:
+
++--------------------------------+
+|                                |
+|       ●        ●               |
+|       |        |               |
+|       |        |               |
+|       ●--------●               |
+|                                |
++--------------------------------+
+
+The lines must connect actual source points to their corresponding reference points.
+
+Do not stretch the source image artificially to make it look like the reference.
+
+Do not crop the reference image merely to hide the fact that the source is smaller.
+
+Preserve the geometry.
+
+---
+
+# 7. CANONICAL VISUALIZATION INTERACTION
+
+Make the canonical visualization interactive.
+
+Every verified correspondence point must be:
+
+* hoverable
+* clickable
+* selectable
+* inspectable
+
+When the user hovers over a point, show a tooltip.
+
+Example:
+
+CORRESPONDENCE #37
+
+SOURCE
+X: 213.482 px
+Y: 147.913 px
+
+REFERENCE
+X: 861.204 px
+Y: 394.821 px
+
+MATCH CONFIDENCE
+94.7%
+
+REPROJECTION RESIDUAL
+0.38 px
+
+STATUS
+VERIFIED INLIER
+
+SUB-PIXEL REFINEMENT
+ECC
+
+SUB-PIXEL RESIDUAL
+0.21 px
+
+SPATIAL COVERAGE
+Cell 7 / 16
+
+---
+
+# 8. CLICKABLE MATCH INSPECTOR
+
+When a correspondence is clicked, open a professional Match Inspector panel.
+
+It must show:
+
+### Match identity
+
+* Match ID
+* source image
+* reference image
+* pair ID
+* graph edge ID if applicable
+
+### Pixel coordinates
+
+* source X
+* source Y
+* reference X
+* reference Y
+
+Coordinates must be in original image pixel coordinates, not merely display coordinates.
+
+If the visualization is resized, maintain the correct coordinate transform.
+
+### Confidence
+
+Show the actual calculated confidence.
+
+Do not simply use:
+
+"confidence = inlier"
+
+or
+
+"confidence = 99%"
+
+unless the number comes from a real model.
+
+Confidence can incorporate real measurable factors such as:
+
+* descriptor similarity
+* ratio-test margin
+* reprojection residual
+* local correlation
+* geometric consistency
+* refinement residual
+
+Document the formula.
+
+### Sub-pixel inspection
+
+Show:
+
+* integer coordinate
+* refined coordinate
+* dx
+* dy
+* residual
+* refinement method
+* convergence status
+* iterations
+* local patch/correlation information
+
+### Spatial coverage
+
+Show where this point sits spatially in the source/reference images.
+
+Example:
+
+Source coverage:
+3 / 4 rows
+4 / 4 columns
+
+Reference coverage:
+2 / 4 rows
+3 / 4 columns
+
+Display a small spatial coverage map.
+
+---
+
+# 9. SUB-PIXEL REFINEMENT
+
+Add a real user-facing option:
+
+## SUB-PIXEL REFINEMENT
+
+When the user clicks:
+
+* an image
+* a pair
+* a match layer
+* a correspondence point
+
+the system should be able to perform sub-pixel refinement.
+
+Supported methods should include, where technically applicable:
+
+1. Taylor expansion
+2. Lucas-Kanade iterative optical flow
+3. ECC intensity-based optimization
+4. Phase correlation + upsampling
+5. Local intensity correlation peak fitting
+
+Do not implement these as fake dropdown options.
+
+If a method is selected, the backend must actually execute it.
+
+Return:
+
+* original point
+* refined point
+* dx
+* dy
+* residual
+* iterations
+* convergence
+* method
+* processing time
+
+If a method cannot be applied to a specific image pair, clearly state:
+
+"Not applicable for this image pair"
+
+and explain why.
+
+Do not fabricate a result.
+
+---
+
+# 10. SUB-PIXEL METHOD AUTO-SELECTION
+
+Add:
+
+## AUTO SELECT BEST REFINEMENT
+
+The system may run multiple valid refinement methods and compare their real results.
+
+Use measurable criteria such as:
+
+* convergence
+* residual
+* local correlation
+* stability
+* consistency with neighboring points
+
+Select the method based on documented numerical criteria.
+
+Show:
+
+AUTO SELECTION
+
+Candidate methods:
+
+* Taylor
+* Lucas-Kanade
+* ECC
+* Phase correlation
+* Local peak fitting
+
+Selected:
+ECC
+
+Reason:
+lowest valid local residual with stable convergence
+
+Do not claim "best" unless the selection criterion is actually defined.
+
+---
+
+# 11. RADIOMETRIC PREPROCESSING — MUST BE REAL
+
+The system must actually perform radiometric preprocessing.
+
+Separate:
+
+## SCIENTIFIC IMAGE DATA
+
+from
+
+## DISPLAY IMAGE
+
+Do not destroy the scientific image merely to create an 8-bit preview.
+
+The existing implementation must be reviewed carefully because converting scientific data to uint8 too early can destroy useful radiometric information.
+
+Preserve:
+
+* original bit depth
+* original channel/band count
+* original dynamic range
+* NaN/invalid pixel information where applicable
+* metadata
+
+Create a separate display-normalized copy.
+
+Pipeline:
+
+RAW IMAGE
+↓
+VALID PIXEL MASK
+↓
+RADIOMETRIC INSPECTION
+↓
+DARK/BIAS/GAIN CORRECTION IF METADATA EXISTS
+↓
+ROBUST RANGE NORMALIZATION
+↓
+ILLUMINATION NORMALIZATION
+↓
+MATCHING REPRESENTATION
+↓
+FEATURE EXTRACTION
+
+Do not pretend to perform calibration if calibration metadata is absent.
+
+In that case report:
+
+"Radiometric calibration metadata unavailable — geometric/radiometric normalization applied using image-derived statistics."
+
+---
+
+# 12. ILLUMINATION NORMALIZATION
+
+This is a core requirement.
+
+Two images may represent the same lunar surface but appear different because of:
+
+* sun angle
+* incidence angle
+* emission angle
+* shadows
+* brightness differences
+* local contrast differences
+* sensor response
+
+The system must explicitly attempt to make correspondence robust to these differences.
+
+Implement and document appropriate methods such as:
+
+* percentile normalization
+* local contrast normalization
+* CLAHE
+* background/illumination field estimation
+* high-pass/detail normalization
+* gradient-domain representation
+* gradient magnitude/orientation features
+* normalized local correlation
+
+Do not assume CLAHE alone solves illumination invariance.
+
+The matching pipeline should be able to compare:
+
+IMAGE A:
+same location, illumination condition A
+
+IMAGE B:
+same location, illumination condition B
+
+and attempt correspondence using illumination-robust representations.
+
+Report illumination statistics.
+
+---
+
+# 13. IMAGE/SENSOR AUTO-IDENTIFICATION
+
+When images are uploaded, automatically build a sensor/source map.
+
+For every uploaded image show:
+
+IMAGE
+SOURCE
+MISSION
+SENSOR
+BAND/CHANNEL INFORMATION
+BIT DEPTH
+WIDTH
+HEIGHT
+GSD IF AVAILABLE
+METADATA STATUS
+CONFIDENCE OF IDENTIFICATION
+
+Possible sensors include:
+
+* Chandrayaan-2 OHRC
+* Chandrayaan-2 TMC
+* Chandrayaan-2 TMC-2
+* Chandrayaan-2 IIRS
+* LRO NAC
+* LRO WAC
+* SELENE/Kaguya
+* Unknown
+
+Identification must use real evidence.
+
+Use:
+
+1. embedded metadata
+2. filename patterns
+3. PDS labels where available
+4. known image dimensions
+5. band/channel information
+6. user-provided metadata
+7. image characteristics only as a secondary signal
+
+Never fabricate sensor identity.
+
+If uncertain:
+
+UNKNOWN / NEEDS METADATA
+
+Display the evidence used.
+
+---
+
+# 14. IMAGE QUALITY + "LAYER COUNT" INVESTIGATION
+
+Investigate why uploaded images appear to have a low layer/channel count.
+
+Do not assume the user uploaded bad data.
+
+For every image inspect:
+
+* number of dimensions
+* width
+* height
+* number of channels
+* number of bands if available
+* bit depth
+* dtype
+* min
+* max
+* mean
+* median
+* standard deviation
+* valid-pixel percentage
+* saturation percentage
+* histogram
+* dynamic range
+* metadata
+* compression
+* alpha channel
+* PDS/GeoTIFF metadata if present
+
+Create an:
+
+## IMAGE DATASET INSPECTOR
+
+Example:
+
+IMAGE 01
+
+Dimensions:
+2048 × 2048
+
+Channels:
+1
+
+Bit depth:
+16-bit
+
+Scientific bands:
+1
+
+Valid pixels:
+98.7%
+
+Dynamic range:
+0–42183
+
+Display representation:
+8-bit normalized preview
+
+This prevents confusion between:
+
+"one image channel"
+
+and
+
+"one scientific layer"
+
+and
+
+"one UI layer."
+
+If the uploaded PNG genuinely contains only one grayscale band, say so.
+
+Do not artificially create fake layers.
+
+---
+
+# 15. PRESERVE ORIGINAL SCIENTIFIC DATA
+
+This is critical.
+
+Do not do:
+
+16-bit scientific image
+↓
+8-bit conversion
+↓
+throw away original
+↓
+matching
+
+Instead:
+
+Original scientific array
+↓
+├── scientific processing
+├── matching representation
+└── display preview
+
+The original data must remain accessible for scientific inspection.
+
+---
+
+# 16. FOLDER UPLOAD — ADD A REAL BROWSE BUTTON
+
+The current folder-upload workflow requires manually typing a path.
+
+Remove that workflow.
+
+Add:
+
+## SELECT IMAGE FOLDER
+
+with a standard Browse button.
+
+On supported browsers use the native directory picker / directory upload mechanism.
+
+Expected user flow:
+
+Click:
+
+[BROWSE FOLDER]
+
+↓
+
+native Windows file/folder picker opens
+
+↓
+
+user navigates using mouse
+
+↓
+
+selects folder
+
+↓
+
+application receives the folder contents
+
+↓
+
+images are listed automatically.
+
+Also support:
+
+* drag and drop folder where supported
+* multiple image selection
+* recursive folder scanning if enabled
+* supported extensions
+* clear error for unsupported files
+
+Do not require:
+
+D:\Users...
+
+to be typed manually.
+
+---
+
+# 17. MULTI-IMAGE MOSAIC
+
+Preserve and improve the existing registration graph.
+
+The graph should contain:
+
+IMAGE NODES
++
+PAIR EDGES
+
+Each edge must represent a real registration.
+
+Example:
+
+IMAGE 1
+|
+PAIR 1-2
+|
+IMAGE 2
+|
+PAIR 2-3
+|
+IMAGE 3
+
+For every pair show:
+
+* pair ID
+* source
+* reference
+* candidate matches
+* verified inliers
+* inlier ratio
+* reprojection RMSE
+* spatial coverage
+* geometric model
+* refinement status
+* processing time
+* GPU/CPU execution
+
+---
+
+# 18. PAIR CLICK BEHAVIOR
+
+When the user clicks:
+
+PAIR 2–3
+
+open:
+
+## SCIENTIFIC CANONICAL MATCH VISUALIZATION
+
+for that exact pair.
+
+It must show:
+
+IMAGE 2 full image
++
+IMAGE 3 full image
++
+verified green correspondence lines
+
+No irrelevant cropped registered image.
+
+No red rejected lines.
+
+No fabricated lines.
+
+---
+
+# 19. FIX THE CURRENT "SOME PAIRS WORK / SOME PAIRS DON'T" PROBLEM
+
+Audit every pair.
+
+For every graph edge, verify:
+
+* image decoding
+* preprocessing
+* feature extraction
+* matching
+* spatial distribution
+* geometric estimation
+* inlier calculation
+* visualization coordinate mapping
+* output generation
+
+If a pair fails, show a real reason.
+
+Example:
+
+PAIR 04–05
+
+STATUS:
+INSUFFICIENT RELIABLE CORRESPONDENCES
+
+Detected features:
+1832
+
+Candidate matches:
+421
+
+Geometrically consistent:
+3
+
+Required:
+4
+
+Do not display a fake visualization.
+
+---
+
+# 20. MATCHING QUALITY
+
+The current SIFT/ORB/AKAZE pipeline must be audited.
+
+Add robust matching options where appropriate.
+
+Possible architecture:
+
+CLASSICAL:
+
+* SIFT
+* AKAZE
+* ORB
+
+LEARNED / DEEP:
+
+* LoFTR
+* SuperPoint
+* SuperGlue or equivalent
+* other appropriate learned matcher
+
+But only expose a learned method if it is actually installed and operational.
+
+The UI must show:
+
+AVAILABLE
+or
+
+NOT INSTALLED
+
+Do not show a button for an unavailable algorithm as if it works.
+
+---
+
+# 21. GEOMETRIC VERIFICATION
+
+Do not treat descriptor matches as final correspondences.
+
+Use:
+
+candidate matches
+↓
+ratio/cross-check filtering
+↓
+spatial distribution
+↓
+robust geometric model
+↓
+RANSAC/MAGSAC or equivalent
+↓
+verified inliers
+↓
+optional refinement
+↓
+final correspondence set
+
+Choose the geometric model based on the image relationship where possible:
+
+* homography
+* affine
+* similarity
+* translation
+* other appropriate model
+
+Do not force homography for every situation.
+
+Report the selected model and why it was selected.
+
+---
+
+# 22. GPU + CPU HYBRID EXECUTION
+
+This is extremely important.
+
+The machine may have an NVIDIA RTX 3050 4 GB GPU and 16 GB system RAM.
+
+Do NOT merely display:
+
+GPU: RTX 3050
+
+That does not prove GPU execution.
+
+The application must detect the actual execution environment.
+
+Show:
+
+GPU:
+NVIDIA RTX 3050
+
+CUDA:
+AVAILABLE / UNAVAILABLE
+
+CUDA VERSION:
+actual value
+
+VRAM:
+actual value
+
+GPU COMPUTATION TEST:
+PASS / FAIL
+
+CURRENT EXECUTION:
+GPU / CPU / HYBRID
+
+---
+
+# 23. USE BOTH CPU AND GPU INTELLIGENTLY
+
+Do not force every operation onto the GPU.
+
+Use a hybrid scheduler.
+
+CPU is suitable for tasks such as:
+
+* file I/O
+* decoding
+* metadata parsing
+* filesystem operations
+* some OpenCV operations
+* graph management
+* orchestration
+
+GPU is suitable where the installed backend supports it for:
+
+* tensor preprocessing
+* learned feature extraction
+* learned matching
+* batch correlation
+* GPU-capable image operations
+* large parallel computations
+
+Run independent CPU and GPU work concurrently when safe.
+
+Do not block the GPU unnecessarily.
+
+Do not claim:
+
+"GPU accelerated"
+
+unless the actual operation ran on the GPU.
+
+---
+
+# 24. GPU VERIFICATION MUST BE REAL
+
+Implement a real GPU self-test.
+
+For example:
+
+GPU SELF TEST
+
+CUDA device detected: PASS
+Tensor allocation: PASS
+GPU computation: PASS
+Synchronization: PASS
+Device name: RTX 3050
+
+If unavailable:
+
+CUDA device detected: FAIL
+GPU computation: FAIL
+Execution mode: CPU FALLBACK
+
+The UI must never infer GPU usage merely from hardware detection.
+
+---
+
+# 25. MEMORY SAFETY FOR 4 GB VRAM
+
+Design for a 4 GB GPU.
+
+Use:
+
+* batch sizing
+* memory-aware scheduling
+* tiling
+* model loading/unloading
+* mixed precision where safe
+* explicit CUDA synchronization
+* cleanup of tensors
+* CPU fallback for operations that exceed VRAM
+
+Never crash because a model attempted to allocate the entire image set into VRAM.
+
+---
+
+# 26. VALIDATION PAGE — INVESTIGATE AND REBUILD
+
+There is currently a Validation page that reports:
+
+"Dataset not connected"
+
+This must be investigated.
+
+Do NOT simply hide the error.
+
+Determine why it occurs.
+
+Identify:
+
+* dataset dependency
+* endpoint
+* expected file
+* configuration
+* environment variable
+* database dependency
+* static dataset path
+* missing route
+* frontend state problem
+
+Then redesign the page.
+
+The Validation page should become:
+
+# VALIDATION & QUALITY ASSURANCE
+
+It should work with the images/session currently uploaded by the user.
+
+It should not require a mysterious external dataset just to open.
+
+Include:
+
+## Dataset status
+
+Uploaded images:
+12
+
+Valid:
+12
+
+Rejected:
+0
+
+## Registration validation
+
+Pairs evaluated:
+11
+
+Valid edges:
+10
+
+Failed edges:
+1
+
+## Match quality
+
+Median inlier ratio
+Median RMSE
+Coverage
+Match count
+
+## Sensor validation
+
+Sensor metadata availability
+
+## Illumination validation
+
+Illumination difference statistics
+
+## Sub-pixel validation
+
+Refinement success rate
+Residual statistics
+
+## GPU validation
+
+GPU execution percentage
+CPU execution percentage
+
+## Pipeline validation
+
+Each module:
+
+PASS / WARN / FAIL
+
+---
+
+# 27. NO DEAD BUTTONS
+
+Audit EVERY button.
+
+For every button determine:
+
+Frontend event
+↓
+API call
+↓
+backend function
+↓
+real computation
+↓
+response
+↓
+UI update
+
+If a button does nothing:
+
+FIX IT.
+
+If a feature is genuinely unavailable:
+
+DISABLE IT and explain why.
+
+Never leave a decorative button pretending to work.
+
+---
+
+# 28. ERROR HANDLING
+
+Every backend endpoint must have structured errors.
+
+Example:
+
+{
+"success": false,
+"stage": "feature_matching",
+"error_code": "INSUFFICIENT_FEATURES",
+"message": "...",
+"recoverable": true,
+"suggested_action": "Try SIFT or a larger overlap."
+}
+
+Frontend must display useful errors.
+
+Never display:
+
+"Something went wrong."
+
+without additional information.
+
+---
+
+# 29. NO SILENT FALLBACKS
+
+If ECC fails:
+
+show:
+
+ECC:
+FAILED → GEOMETRIC RESULT RETAINED
+
+If GPU fails:
+
+show:
+
+GPU:
+UNAVAILABLE → CPU FALLBACK
+
+If sensor detection fails:
+
+show:
+
+SENSOR:
+UNKNOWN → METADATA REQUIRED
+
+If sub-pixel refinement fails:
+
+show:
+
+SUB-PIXEL:
+NOT CONVERGED
+
+Never silently fabricate success.
+
+---
+
+# 30. UI REDESIGN
+
+The entire frontend should be redesigned.
+
+## DO NOT USE BLACK BACKGROUND.
+
+Use a classical professional scientific interface.
+
+Design language:
+
+* white background
+* warm/light neutral surfaces
+* clean navy/blue-gray typography
+* subtle borders
+* restrained shadows
+* professional spacing
+* excellent hierarchy
+* modern scientific dashboard
+* friendly
+* premium
+* clean
+* minimal clutter
+
+Avoid:
+
+* neon green everywhere
+* black panels
+* excessive gradients
+* excessive glassmorphism
+* giant rounded cards
+* childish dashboard styling
+* unnecessary animations
+
+---
+
+# 31. ADVANCED CSS
+
+Use professional CSS architecture.
+
+Include:
+
+* CSS variables
+* responsive grid
+* reusable cards
+* accessible buttons
+* hover states
+* focus states
+* smooth transitions
+* responsive image containers
+* sticky inspection panels where appropriate
+* professional tooltips
+* skeleton/loading states
+* progress indicators
+* empty states
+* error states
+
+The UI should feel like a scientific aerospace/remote-sensing application.
+
+---
+
+# 32. PRIMARY WORKFLOW
+
+The final application should guide the user through:
+
+## STEP 1
+
+UPLOAD
+
+Image files / folder
+
+↓
+
+## STEP 2
+
+DATA INSPECTION
+
+Sensor
+Dimensions
+Bands
+Bit depth
+Metadata
+Quality
+
+↓
+
+## STEP 3
+
+PREPROCESSING
+
+Radiometric
+Illumination
+Normalization
+
+↓
+
+## STEP 4
+
+MATCHING
+
+Feature detector / learned matcher
+
+↓
+
+## STEP 5
+
+GEOMETRIC VERIFICATION
+
+RANSAC / robust model
+
+↓
+
+## STEP 6
+
+CANONICAL CORRESPONDENCE
+
+Full source + full reference + verified green lines
+
+↓
+
+## STEP 7
+
+SUB-PIXEL INSPECTION
+
+Click any correspondence
+
+↓
+
+## STEP 8
+
+MULTI-IMAGE GRAPH
+
+Connected image network
+
+↓
+
+## STEP 9
+
+VALIDATION
+
+Scientific QA
+
+---
+
+# 33. IMAGE VIEWER
+
+Build a high-quality interactive viewer.
+
+Required:
+
+* zoom
+* pan
+* fit
+* reset
+* fullscreen
+* opacity
+* source/reference toggle
+* correspondence visibility
+* selected point
+* coordinate readout
+* pixel inspection
+
+Do not allow UI coordinate scaling errors.
+
+Coordinate conversion must account for:
+
+original image size
+display size
+zoom
+pan
+device pixel ratio
+
+---
+
+# 34. MATCH LAYER
+
+Provide:
+
+MATCHES
+
+Verified correspondences:
+180
+
+Rejected internally:
+241
+
+Displayed:
+180 verified
+
+But rejected lines remain hidden from the primary visualization.
+
+A diagnostic toggle may exist in an advanced developer/QA panel if useful, but it must not contaminate the main scientific view.
+
+---
+
+# 35. SCIENTIFIC CANONICAL VIEW LAYOUT
+
+Use a layout like:
+
+---
+
+## SCIENCE / CORRESPONDENCE
+
+SOURCE / MOVING          REFERENCE / FIXED
+
+[full image]             [full image]
+
+```
+  ●----------------------●
+   \                    /
+    ●------------------●
+```
+
+---
+
+VERIFIED MATCHES     180
+INLIER RATIO         91.4%
+RMSE                 0.38 px
+COVERAGE             68%
+MODEL                HOMOGRAPHY
+
+---
+
+SELECTED MATCH
+Source:      (213.482, 147.913)
+Reference:   (861.204, 394.821)
+Confidence:  94.7%
+Residual:    0.38 px
+
+---
+
+SUB-PIXEL INSPECTION
+Method: ECC
+dx: ...
+dy: ...
+Residual: ...
+Converged: YES
+
+---
+
+---
+
+# 36. MOSAIC VIEW
+
+For multi-image registration:
+
+show the registration graph.
+
+Example:
+
+[IMG 01] —— [IMG 02] —— [IMG 03]
+|
+[IMG 04]
+
+Clicking an edge opens the exact canonical pair visualization.
+
+Clicking a node opens image inspection.
+
+Clicking a correspondence opens Match Inspector.
+
+---
+
+# 37. MOSAIC OUTPUT
+
+The final mosaic should not be confused with pair correspondence visualization.
+
+Maintain separate concepts:
+
+### CORRESPONDENCE RESULT
+
+Shows:
+"Which features correspond?"
+
+### REGISTRATION RESULT
+
+Shows:
+"How images are geometrically related?"
+
+### MOSAIC RESULT
+
+Shows:
+"How the registered images combine."
+
+The UI must not mix these three concepts.
+
+---
+
+# 38. PERFORMANCE
+
+Measure actual performance.
+
+For every run report:
+
+* upload time
+* decode time
+* preprocessing time
+* feature extraction time
+* matching time
+* geometric verification time
+* sub-pixel time
+* total time
+* CPU time
+* GPU time if applicable
+
+Use asynchronous backend processing where appropriate.
+
+For multi-image processing, parallelize independent pair computations.
+
+Do not sacrifice correctness merely to reduce runtime.
+
+---
+
+# 39. TESTING
+
+Create automated tests.
+
+At minimum:
+
+## Unit tests
+
+* image decoding
+* metadata extraction
+* preprocessing
+* illumination normalization
+* feature extraction
+* matching
+* RANSAC
+* coordinate transformation
+* sub-pixel refinement
+* confidence calculation
+* spatial coverage
+
+## Integration tests
+
+* pair registration
+* multi-image graph
+* folder upload
+* canonical visualization data
+* validation page
+* GPU detection
+* CPU fallback
+
+## UI tests
+
+Every button.
+
+Every tab.
+
+Every checkbox.
+
+Every dropdown.
+
+Every pair click.
+
+Every image click.
+
+Every correspondence click.
+
+---
+
+# 40. GOLDEN TEST CASE
+
+Create a deterministic synthetic test where:
+
+1. image A is created
+2. image B is generated from A using known transformation
+3. known correspondences are available
+4. known transformation is available
+
+Then verify:
+
+* recovered correspondences
+* recovered geometry
+* residual
+* sub-pixel refinement
+* confidence
+* coordinate accuracy
+
+This gives the system a ground-truth test.
+
+---
+
+# 41. REAL IMAGE TEST
+
+Use available uploaded lunar images.
+
+Test:
+
+* small source inside large reference
+* same area / different illumination
+* different scale
+* different rotation if available
+* multiple images
+* difficult texture
+* low-texture regions
+
+Record where the pipeline succeeds and where it legitimately fails.
+
+Do not force every image pair to produce a successful result.
+
+Scientific honesty is more important than a fake 100% success rate.
+
+---
+
+# 42. COMPLETION CRITERIA
+
+The project is NOT considered complete merely because:
+
+* the page loads
+* images upload
+* green lines appear
+* a mosaic appears
+* GPU text appears
+
+The project is complete only when:
+
+### FUNCTIONALITY
+
+All advertised buttons work.
+
+### CORRESPONDENCE
+
+Displayed green lines are real verified correspondences.
+
+### OUTLIERS
+
+Rejected red lines are not shown in the main scientific visualization.
+
+### COORDINATES
+
+Clicked points return correct original-image coordinates.
+
+### CONFIDENCE
+
+Confidence is computed, not fabricated.
+
+### SUB-PIXEL
+
+At least the implemented refinement methods execute real algorithms.
+
+### PREPROCESSING
+
+Radiometric/illumination preprocessing is real and traceable.
+
+### SENSOR
+
+Sensor identification is evidence-based.
+
+### DATA QUALITY
+
+Bit depth/bands/layers are correctly reported.
+
+### FOLDER UPLOAD
+
+Native browse folder selection works.
+
+### GPU
+
+GPU usage is verified by actual computation.
+
+### CPU
+
+CPU fallback works.
+
+### HYBRID
+
+CPU and GPU can be used intelligently together where appropriate.
+
+### VALIDATION
+
+Validation page works without unexplained dataset errors.
+
+### MULTI-IMAGE
+
+Graph edges open exact pair visualizations.
+
+### UI
+
+No black background.
+
+No broken controls.
+
+No dead buttons.
+
+No fake metrics.
+
+No placeholder outputs.
+
+---
+
+# 43. DEVELOPMENT METHOD
+
+You must implement this project PHASE BY PHASE.
+
+Do not implement every phase automatically.
+
+After each phase:
+
+1. run tests
+2. start backend
+3. start frontend
+4. test affected functionality
+5. inspect browser console
+6. inspect backend logs
+7. fix errors
+8. report exactly what changed
+9. report what was verified
+10. stop
+
+Wait for the user to explicitly request the next phase.
+
+---
+
+# PHASE 0 — CODEBASE AUDIT
+
+Do not modify major functionality yet.
+
+Inspect:
+
+* repository
+* backend
+* frontend
+* APIs
+* services
+* CSS
+* image pipeline
+* GPU detection
+* validation page
+* mosaic
+* registration visualization
+
+Create:
+
+AUDIT_REPORT.md
+
+Include:
+
+* architecture
+* current working features
+* broken features
+* dead buttons
+* known errors
+* GPU path
+* CPU path
+* current visualization path
+* data-loss risks
+* current image ingestion limitations
+
+Then fix only obvious crashes/blocking errors required to establish a stable baseline.
+
+STOP.
+
+---
+
+# PHASE 1 — IMAGE INGESTION + DATA INSPECTION
+
+Implement:
+
+* folder browse
+* multiple file upload
+* metadata inspection
+* sensor detection
+* band/layer inspection
+* bit-depth inspection
+* original scientific data preservation
+* display preview separation
+
+Test with:
+
+* PNG
+* JPEG
+* TIFF
+* 8-bit
+* 16-bit
+* grayscale
+* multi-channel
+
+STOP.
+
+---
+
+# PHASE 2 — RADIOMETRIC + ILLUMINATION PIPELINE
+
+Implement the real preprocessing architecture.
+
+Add:
+
+* radiometric inspection
+* robust normalization
+* illumination normalization
+* local contrast handling
+* gradient representation where useful
+
+Expose preprocessing diagnostics.
+
+STOP.
+
+---
+
+# PHASE 3 — MATCHING PIPELINE
+
+Audit and improve:
+
+* SIFT
+* ORB
+* AKAZE
+* learned matchers where actually available
+
+Implement:
+
+* ratio filtering
+* cross-check where applicable
+* spatial distribution
+* robust correspondence handling
+
+STOP.
+
+---
+
+# PHASE 4 — GEOMETRIC VERIFICATION
+
+Implement robust model selection.
+
+Support:
+
+* translation
+* similarity
+* affine
+* homography
+
+where appropriate.
+
+Calculate:
+
+* inliers
+* residual
+* RMSE
+* coverage
+
+STOP.
+
+---
+
+# PHASE 5 — SCIENTIFIC CANONICAL MATCH VISUALIZATION
+
+Remove the registered cropped view from the primary UI.
+
+Implement:
+
+* full source
+* full reference
+* verified green lines
+* no red rejected lines
+* coordinate transform
+* zoom
+* pan
+* hover
+* click
+* Match Inspector
+
+STOP.
+
+---
+
+# PHASE 6 — SUB-PIXEL REFINEMENT
+
+Implement real:
+
+* Taylor expansion
+* Lucas-Kanade
+* ECC
+* phase correlation + upsampling
+* local peak fitting
+
+Implement:
+
+AUTO SELECT.
+
+Add point-level inspection.
+
+STOP.
+
+---
+
+# PHASE 7 — GPU + CPU HYBRID EXECUTION
+
+Implement:
+
+* actual CUDA detection
+* actual GPU self-test
+* GPU execution
+* CPU execution
+* hybrid scheduler
+* VRAM monitoring
+* memory-safe processing
+* truthful UI status
+
+Do not claim GPU use without actual GPU computation.
+
+STOP.
+
+---
+
+# PHASE 8 — MULTI-IMAGE GRAPH + MOSAIC
+
+Fix:
+
+* pair edges
+* pair selection
+* edge visualization
+* graph consistency
+* mosaic assembly
+* pair-specific canonical visualization
+
+Every pair must be inspectable.
+
+STOP.
+
+---
+
+# PHASE 9 — VALIDATION & QA
+
+Replace broken "dataset not connected" behavior.
+
+Build a working validation page.
+
+Include:
+
+* dataset status
+* image quality
+* sensor status
+* preprocessing status
+* matching statistics
+* geometry statistics
+* sub-pixel statistics
+* GPU/CPU statistics
+* pass/warn/fail
+
+STOP.
+
+---
+
+# PHASE 10 — UI/UX REDESIGN
+
+Redesign the entire frontend.
+
+Requirements:
+
+WHITE PROFESSIONAL INTERFACE
+
+Advanced CSS.
+
+Scientific visual language.
+
+Responsive.
+
+Clean.
+
+Fast.
+
+Accessible.
+
+No black background.
+
+No unnecessary visual clutter.
+
+No dead controls.
+
+STOP.
+
+---
+
+# PHASE 11 — END-TO-END QA
+
+Test the entire system.
+
+Test:
+
+1 image
+2 images
+multiple images
+folder upload
+small source / large reference
+illumination difference
+scale difference
+low texture
+bad image
+unsupported image
+missing metadata
+GPU available
+GPU unavailable
+CPU fallback
+sub-pixel refinement
+multi-image graph
+validation page
+
+Fix every discovered error.
+
+STOP.
+
+---
+
+# PHASE 12 — FINAL SCIENTIFIC ACCEPTANCE TEST
+
+Create:
+
+FINAL_VALIDATION_REPORT.md
+
+Include:
+
+* functionality checklist
+* algorithm checklist
+* sensor detection checklist
+* preprocessing checklist
+* GPU checklist
+* CPU checklist
+* sub-pixel checklist
+* UI checklist
+* error checklist
+* performance checklist
+* known limitations
+
+For every item:
+
+PASS
+WARN
+FAIL
+
+Do not write PASS unless actually tested.
+
+---
+
+# 44. FINAL NON-NEGOTIABLE PRINCIPLE
+
+Never optimize this project for the appearance of completeness.
+
+Optimize it for:
+
+REAL COMPUTATION
++
+REAL CORRESPONDENCE
++
+REAL VALIDATION
++
+REAL PERFORMANCE
++
+REAL TRACEABILITY.
+
+A beautiful UI displaying fake scientific results is a failure.
+
+A scientifically correct result with an honest limitation is preferable to a fabricated successful result.
+
+The final application should make it immediately clear:
+
+WHAT WAS UPLOADED
+↓
+WHAT SENSOR IT IS
+↓
+WHAT PREPROCESSING WAS PERFORMED
+↓
+WHAT MATCHES WERE FOUND
+↓
+WHICH MATCHES WERE VERIFIED
+↓
+WHERE EACH MATCH IS
+↓
+HOW CONFIDENT THE MATCH IS
+↓
+HOW IT WAS REFINED
+↓
+WHAT ERROR REMAINS
+↓
+WHETHER GPU OR CPU ACTUALLY COMPUTED IT
+↓
+WHETHER THE REGISTRATION PASSED VALIDATION.
+
+---
+
+# 45. FIRST COMMAND
+
+When this master prompt is provided to you, DO NOT immediately start implementing all phases.
+
+Start with:
+
+## PHASE 0 — CODEBASE AUDIT
+
+Inspect the existing project.
+
+Do not replace the project.
+
+Do not rebuild from scratch.
+
+Do not proceed to Phase 1 until Phase 0 is completed and reported.
+
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-01T20:30:07+05:30.
+
+The user's current state is as follows:
+Other open documents:
+- d:\Branches\Projects\SIH26166\SELENE-REG-X-SIH26166\docs\BENCHMARK.md (LANGUAGE_MARKDOWN)
+- d:\Branches\Projects\SIH26166\SELENE-REG-X-SIH26166\tests\test_phase8.py (LANGUAGE_PYTHON)
+- d:\Branches\Projects\SIH26166\SELENE-REG-X-SIH26166\artifacts\api-server\python\app\services\multi_registration.py (LANGUAGE_PYTHON)
+- d:\Branches\Projects\SIH26166\SELENE-REG-X-SIH26166\artifacts\api-server\python\worker.py (LANGUAGE_PYTHON)
+- d:\Branches\Projects\SIH26166\SELENE-REG-X-SIH26166\package.json (LANGUAGE_JSON)
+</ADDITIONAL_METADATA>

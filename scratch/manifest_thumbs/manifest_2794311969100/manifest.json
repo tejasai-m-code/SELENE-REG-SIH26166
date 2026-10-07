@@ -1,0 +1,145 @@
+{
+  "dataset_name": "Demo Chandrayaan-2 Strip",
+  "manifest_id": "manifest_2794311969100",
+  "root_path": "D:\\Branches\\Projects\\SIH26166\\SELENE-REG-X-SIH26166\\demo_data",
+  "files_discovered": 6,
+  "images_count": 5,
+  "metadata_count": 0,
+  "unsupported_count": 1,
+  "total_size_bytes": 635041,
+  "files": [
+    {
+      "filename": "README.md",
+      "relative_path": "README.md",
+      "absolute_path": "D:\\Branches\\Projects\\SIH26166\\SELENE-REG-X-SIH26166\\demo_data\\README.md",
+      "format": "MD",
+      "size_bytes": 1396,
+      "dimensions": null,
+      "metadata_status": "UNAVAILABLE",
+      "metadata": {},
+      "status": "UNSUPPORTED",
+      "reason": "Non-raster file format (.md)",
+      "preview_url": null
+    },
+    {
+      "filename": "synthetic_mosaic_1.png",
+      "relative_path": "synthetic_mosaic_1.png",
+      "absolute_path": "D:\\Branches\\Projects\\SIH26166\\SELENE-REG-X-SIH26166\\demo_data\\synthetic_mosaic_1.png",
+      "format": "PNG",
+      "size_bytes": 126427,
+      "dimensions": [
+        400,
+        350,
+        1
+      ],
+      "metadata_status": "AVAILABLE",
+      "metadata_summary": "Unknown Sensor",
+      "metadata": {
+        "dimensions": [
+          350,
+          400,
+          1
+        ]
+      },
+      "status": "READY",
+      "reason": null,
+      "preview_url": "/api/outputs/thumbnails/manifest_2794311969100/previews/thumb_1_synthetic_mosaic_1.jpg"
+    },
+    {
+      "filename": "synthetic_mosaic_2.png",
+      "relative_path": "synthetic_mosaic_2.png",
+      "absolute_path": "D:\\Branches\\Projects\\SIH26166\\SELENE-REG-X-SIH26166\\demo_data\\synthetic_mosaic_2.png",
+      "format": "PNG",
+      "size_bytes": 123826,
+      "dimensions": [
+        400,
+        350,
+        1
+      ],
+      "metadata_status": "AVAILABLE",
+      "metadata_summary": "Unknown Sensor",
+      "metadata": {
+        "dimensions": [
+          350,
+          400,
+          1
+        ]
+      },
+      "status": "READY",
+      "reason": null,
+      "preview_url": "/api/outputs/thumbnails/manifest_2794311969100/previews/thumb_2_synthetic_mosaic_2.jpg"
+    },
+    {
+      "filename": "synthetic_mosaic_3.png",
+      "relative_path": "synthetic_mosaic_3.png",
+      "absolute_path": "D:\\Branches\\Projects\\SIH26166\\SELENE-REG-X-SIH26166\\demo_data\\synthetic_mosaic_3.png",
+      "format": "PNG",
+      "size_bytes": 126445,
+      "dimensions": [
+        400,
+        350,
+        1
+      ],
+      "metadata_status": "AVAILABLE",
+      "metadata_summary": "Unknown Sensor",
+      "metadata": {
+        "dimensions": [
+          350,
+          400,
+          1
+        ]
+      },
+      "status": "READY",
+      "reason": null,
+      "preview_url": "/api/outputs/thumbnails/manifest_2794311969100/previews/thumb_3_synthetic_mosaic_3.jpg"
+    },
+    {
+      "filename": "synthetic_reference.png",
+      "relative_path": "synthetic_reference.png",
+      "absolute_path": "D:\\Branches\\Projects\\SIH26166\\SELENE-REG-X-SIH26166\\demo_data\\synthetic_reference.png",
+      "format": "PNG",
+      "size_bytes": 121531,
+      "dimensions": [
+        400,
+        400,
+        1
+      ],
+      "metadata_status": "AVAILABLE",
+      "metadata_summary": "Unknown Sensor",
+      "metadata": {
+        "dimensions": [
+          400,
+          400,
+          1
+        ]
+      },
+      "status": "READY",
+      "reason": null,
+      "preview_url": "/api/outputs/thumbnails/manifest_2794311969100/previews/thumb_4_synthetic_reference.jpg"
+    },
+    {
+      "filename": "synthetic_source.png",
+      "relative_path": "synthetic_source.png",
+      "absolute_path": "D:\\Branches\\Projects\\SIH26166\\SELENE-REG-X-SIH26166\\demo_data\\synthetic_source.png",
+      "format": "PNG",
+      "size_bytes": 135416,
+      "dimensions": [
+        400,
+        400,
+        1
+      ],
+      "metadata_status": "AVAILABLE",
+      "metadata_summary": "Unknown Sensor",
+      "metadata": {
+        "dimensions": [
+          400,
+          400,
+          1
+        ]
+      },
+      "status": "READY",
+      "reason": null,
+      "preview_url": "/api/outputs/thumbnails/manifest_2794311969100/previews/thumb_5_synthetic_source.jpg"
+    }
+  ]
+}

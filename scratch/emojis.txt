@@ -1,0 +1,39 @@
+Line 56: ['percentile', 'Percentile stretch', 'Robust 1–99% normalization'],
+Line 65: ['lucas_kanade', 'Lucas–Kanade', 'Iterative pyramidal optical flow (point-wise)'],
+Line 230: {state.file.size > 0 ? `${(state.file.size / 1024 / 1024).toFixed(2)} MB` : 'Size: unavailable'} · {state.file.type || 'raster'}
+Line 467: notes.push(`Large resolution difference detected (GSD ratio: ${gsdRatio.toFixed(1)}×). Multiscale registration may be required.`);
+Line 469: notes.push(`Resolution levels are compatible (GSD ratio: ${gsdRatio.toFixed(2)}×).`);
+Line 474: notes.push(`High solar illumination angle disparity (|Δθ| = ${incDelta.toFixed(1)}°). Gradient or Retinex representation recommended.`);
+Line 478: notes.push(`Cross-sensor pair (${sourceSensor.split(' ')[0]} ↔ ${referenceSensor.split(' ')[0]}). Gradient representation recommended.`);
+Line 548: <p className="text-xs text-slate-500">○ Sub-pixel refinement not enabled or no payload returned.</p>
+Line 566: lucas_kanade: 'Lucas–Kanade Optical Flow',
+Line 608: ○ Sub-pixel refinement not enabled
+Line 675: <span className="text-[9px] uppercase text-slate-500 block">Reduction (Δ)</span>
+Line 2034: Intersection: {Math.round(Number((footprint?.overlap as Record<string, unknown>)?.intersection_area || 0))} px² · IoU: {Number((footprint?.overlap as Record<string, unknown>)?.iou || 0).toFixed(3)}
+Line 2056: <p className="mono text-[9px] text-cyan-400 mb-1.5">3×3 Transformation Matrix (source → reference):</p>
+Line 2667: {transformDecomposition?.projected_width ? `${transformDecomposition.projected_width} × ${transformDecomposition.projected_height} px` : '—'}
+Line 2673: {transformDecomposition?.reference_width ? `${transformDecomposition.reference_width} × ${transformDecomposition.reference_height} px` : '—'}
+Line 2697: {transformDecomposition?.canvas_expansion_factor !== undefined ? `${Number(transformDecomposition.canvas_expansion_factor).toFixed(2)}×` : '—'}
+Line 2992: <div className="brand-mark">◒</div>
+Line 3337: <h2 className="mt-0.5 font-display font-bold text-slate-900">Upload Image Strip (2–200)</h2>
+Line 3394: <p className="mt-0.5 text-[10px] text-slate-500">PNG, JPEG, TIFF, JP2 · select up to 200 files</p>
+Line 3467: Frame #{idx + 1} · {img.file.size > 0 ? `${(img.file.size / 1024).toFixed(0)} KB` : 'Size: unavailable'}
+Line 3573: <p className="font-semibold text-red-950">{String(mosaicInfo?.requested_width)} × {String(mosaicInfo?.requested_height)} px</p>
+Line 3652: <span className="text-emerald-800 font-medium">✓ All {placedCount} images belong to one connected registration component.</span>
+Line 3654: <span className="text-amber-800 font-medium">⚠ All {placedCount} placed images belong to one connected registration component.</span>
+Line 3684: <span className="mono text-[9px] uppercase text-slate-500 block">Total Possible Pairs (N²)</span>
+Line 3696: <p className="text-[10px] text-slate-500 mt-0.5">Unnecessary N² skipped</p>
+Line 3761: {mosaicWidth} × {mosaicHeight} px
+Line 3788: {mosaicWidth} × {mosaicHeight} px
+Line 3878: Connected images: {placedCount} · Valid edges: {pairKeys.length}
+Line 3917: Edge {selectedPair}: {srcImgState?.file.name || `Frame #${sIdx + 1}`} ➔ {refImgState?.file.name || `Frame #${rIdx + 1}`}
+Line 4007: ['Strip Frame 1', 'synthetic_mosaic_1.png', '400×350 px'],
+Line 4008: ['Strip Frame 2', 'synthetic_mosaic_2.png', '400×350 px'],
+Line 4009: ['Strip Frame 3', 'synthetic_mosaic_3.png', '400×350 px']
+Line 4457: `Iterations: ${String(pSub.iterations || '1–5')}`,
+Line 4566: ['Translation', 'Up to 12.5 px random planar shift', '±12.5 px'],
+Line 4567: ['Rotation', 'Up to 8.5° angular offset', '±8.5°'],
+Line 4568: ['Scale Variation', 'Scale change factor 0.92 to 1.08', '0.92 – 1.08×'],
+Line 4569: ['Illumination Delta', 'Simulated solar incident angle flux', '18 – 25%'],
+Line 4570: ['Gaussian Noise', 'Sensor additive noise σ = 0.02', 'σ = 0.02'],
+Line 4694: ['04', 'Measure Deviation', 'Compute corner transfer error RMSE: ||H_est · p_i - H_true · p_i|| in subpixel units.'],

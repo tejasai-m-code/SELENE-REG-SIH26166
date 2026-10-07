@@ -1,41 +1,62 @@
-# Python
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# compiled output
+dist
+tmp
+out-tsc
+*.tsbuildinfo
+.expo
+.expo-shared
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+# Replit
+.cache/
+.local/
+
+# Python generated files
 __pycache__/
 *.py[cod]
-*.pyo
-
-# Virtual environments
-venv/
+.pytest_cache/
 .venv/
-backend/venv/
-
-# Environment / secrets
-.env
-.env.*
-
-# IDE / editor files
-.vscode/
-.idea/
-
-# Runtime uploads and generated outputs
-backend/uploads/*
-backend/outputs/*
-backend/cache/*
-
-# Keep directory structure in Git
-!backend/uploads/.gitkeep
-!backend/outputs/.gitkeep
-!backend/cache/.gitkeep
-
-# Development/test artifacts
-cache_test/
-cache_test_*/
-temp.png
-test_src.png
-test_ref.png
-debug_*.py
-fix*.py
-patch_*.py
-update_*.py
-add_serializer.py
-append_css.py
-write_js.py
+venv/
+# Runtime generated outputs
+artifacts/api-server/data/outputs/*
+# Generated feature cache
+artifacts/api-server/python/cache/
+artifacts/api-server/data/jobs/
+artifacts/api-server/data/outputs/

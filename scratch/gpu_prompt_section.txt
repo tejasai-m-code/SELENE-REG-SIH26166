@@ -1,0 +1,233 @@
+# 22. GPU + CPU HYBRID EXECUTION
+
+
+
+This is extremely important.
+
+
+
+The machine may have an NVIDIA RTX 3050 4 GB GPU and 16 GB system RAM.
+
+
+
+Do NOT merely display:
+
+
+
+GPU: RTX 3050
+
+
+
+That does not prove GPU execution.
+
+
+
+The application must detect the actual execution environment.
+
+
+
+Show:
+
+
+
+GPU:
+
+NVIDIA RTX 3050
+
+
+
+CUDA:
+
+AVAILABLE / UNAVAILABLE
+
+
+
+CUDA VERSION:
+
+actual value
+
+
+
+VRAM:
+
+actual value
+
+
+
+GPU COMPUTATION TEST:
+
+PASS / FAIL
+
+
+
+CURRENT EXECUTION:
+
+GPU / CPU / HYBRID
+
+
+
+---
+
+
+
+# 23. USE BOTH CPU AND GPU INTELLIGENTLY
+
+
+
+Do not force every operation onto the GPU.
+
+
+
+Use a hybrid scheduler.
+
+
+
+CPU is suitable for tasks such as:
+
+
+
+* file I/O
+
+* decoding
+
+* metadata parsing
+
+* filesystem operations
+
+* some OpenCV operations
+
+* graph management
+
+* orchestration
+
+
+
+GPU is suitable where the installed backend supports it for:
+
+
+
+* tensor preprocessing
+
+* learned feature extraction
+
+* learned matching
+
+* batch correlation
+
+* GPU-capable image operations
+
+* large parallel computations
+
+
+
+Run independent CPU and GPU work concurrently when safe.
+
+
+
+Do not block the GPU unnecessarily.
+
+
+
+Do not claim:
+
+
+
+"GPU accelerated"
+
+
+
+unless the actual operation ran on the GPU.
+
+
+
+---
+
+
+
+# 24. GPU VERIFICATION MUST BE REAL
+
+
+
+Implement a real GPU self-test.
+
+
+
+For example:
+
+
+
+GPU SELF TEST
+
+
+
+CUDA device detected: PASS
+
+Tensor allocation: PASS
+
+GPU computation: PASS
+
+Synchronization: PASS
+
+Device name: RTX 3050
+
+
+
+If unavailable:
+
+
+
+CUDA device detected: FAIL
+
+GPU computation: FAIL
+
+Execution mode: CPU FALLBACK
+
+
+
+The UI must never infer GPU usage merely from hardware detection.
+
+
+
+---
+
+
+
+# 25. MEMORY SAFETY FOR 4 GB VRAM
+
+
+
+Design for a 4 GB GPU.
+
+
+
+Use:
+
+
+
+* batch sizing
+
+* memory-aware scheduling
+
+* tiling
+
+* model loading/unloading
+
+* mixed precision where safe
+
+* explicit CUDA synchronization
+
+* cleanup of tensors
+
+* CPU fallback for operations that exceed VRAM
+
+
+
+Never crash because a model attempted to allocate the entire image set into VRAM.
+
+
+
+---
+
+
+
+# 26.

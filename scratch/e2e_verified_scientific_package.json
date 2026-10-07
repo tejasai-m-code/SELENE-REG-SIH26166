@@ -1,0 +1,1298 @@
+{
+  "schema_version": "1.0.0-scientific-lunar",
+  "provenance": {
+    "system": "SELENE-REG-X",
+    "job_id": "d2bdeb04f4f0"
+  },
+  "correspondences": {
+    "detector": "SIFT",
+    "candidate_matches_count": 91,
+    "verified_inliers_count": 7,
+    "inlier_ratio": 0.0769,
+    "spatial_coverage_ratio": 0.1875,
+    "verified_points": [
+      {
+        "index": 1,
+        "source_xy": [
+          451.789,
+          163.5973
+        ],
+        "reference_xy": [
+          145,
+          487
+        ],
+        "residual_pixels": 2.2519,
+        "is_inlier": true,
+        "status": "INLIER"
+      },
+      {
+        "index": 2,
+        "source_xy": [
+          96.2298,
+          389.3016
+        ],
+        "reference_xy": [
+          89.2164,
+          551.2212
+        ],
+        "residual_pixels": 66.3416,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 3,
+        "source_xy": [
+          429.1135,
+          865.1704
+        ],
+        "reference_xy": [
+          133.7018,
+          717.0103
+        ],
+        "residual_pixels": 130.7277,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 4,
+        "source_xy": [
+          944.6851,
+          584.5774
+        ],
+        "reference_xy": [
+          276.8272,
+          672.1282
+        ],
+        "residual_pixels": 37.3,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 5,
+        "source_xy": [
+          422.9453,
+          512.3431
+        ],
+        "reference_xy": [
+          197.819,
+          662.985
+        ],
+        "residual_pixels": 23.1197,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 6,
+        "source_xy": [
+          415.0017,
+          435.7758
+        ],
+        "reference_xy": [
+          148.9405,
+          644.4201
+        ],
+        "residual_pixels": 42.5703,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 7,
+        "source_xy": [
+          1659.4596,
+          477.8729
+        ],
+        "reference_xy": [
+          243,
+          677
+        ],
+        "residual_pixels": 207.9289,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 8,
+        "source_xy": [
+          1659.4596,
+          477.8729
+        ],
+        "reference_xy": [
+          243,
+          677
+        ],
+        "residual_pixels": 207.9289,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 9,
+        "source_xy": [
+          856.6865,
+          55.5434
+        ],
+        "reference_xy": [
+          196.1073,
+          576.2729
+        ],
+        "residual_pixels": 168.4525,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 10,
+        "source_xy": [
+          108.5778,
+          389.3606
+        ],
+        "reference_xy": [
+          72.0242,
+          603.877
+        ],
+        "residual_pixels": 43.4134,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 11,
+        "source_xy": [
+          1012.4948,
+          375.1515
+        ],
+        "reference_xy": [
+          307.8805,
+          494.9748
+        ],
+        "residual_pixels": 58.1018,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 12,
+        "source_xy": [
+          837.0493,
+          646.9916
+        ],
+        "reference_xy": [
+          1279.9982,
+          11.2891
+        ],
+        "residual_pixels": 1201.9855,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 13,
+        "source_xy": [
+          828.526,
+          77.8822
+        ],
+        "reference_xy": [
+          289.3267,
+          549.7349
+        ],
+        "residual_pixels": 159.8554,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 14,
+        "source_xy": [
+          826.6204,
+          642.1321
+        ],
+        "reference_xy": [
+          245.6513,
+          673.9752
+        ],
+        "residual_pixels": 27.8304,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 15,
+        "source_xy": [
+          826.6204,
+          642.1321
+        ],
+        "reference_xy": [
+          245.6513,
+          673.9752
+        ],
+        "residual_pixels": 27.8304,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 16,
+        "source_xy": [
+          1041.332,
+          419.4855
+        ],
+        "reference_xy": [
+          277.2068,
+          589.5259
+        ],
+        "residual_pixels": 34.2647,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 17,
+        "source_xy": [
+          766.67,
+          647.0821
+        ],
+        "reference_xy": [
+          97.9126,
+          668.7634
+        ],
+        "residual_pixels": 165.8721,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 18,
+        "source_xy": [
+          123.4062,
+          390.7166
+        ],
+        "reference_xy": [
+          59.0004,
+          609.6327
+        ],
+        "residual_pixels": 58.3724,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 19,
+        "source_xy": [
+          1110.8342,
+          592.9825
+        ],
+        "reference_xy": [
+          346.7918,
+          616.9972
+        ],
+        "residual_pixels": 32.8141,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 20,
+        "source_xy": [
+          724.5014,
+          787.5219
+        ],
+        "reference_xy": [
+          237.2903,
+          670.4073
+        ],
+        "residual_pixels": 81.7015,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 21,
+        "source_xy": [
+          277.7131,
+          469.6281
+        ],
+        "reference_xy": [
+          120.1047,
+          605.4716
+        ],
+        "residual_pixels": 45.7506,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 22,
+        "source_xy": [
+          277.7131,
+          469.6281
+        ],
+        "reference_xy": [
+          120.1047,
+          605.4716
+        ],
+        "residual_pixels": 45.7506,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 23,
+        "source_xy": [
+          707.6511,
+          70.846
+        ],
+        "reference_xy": [
+          234,
+          458
+        ],
+        "residual_pixels": 67.8102,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 24,
+        "source_xy": [
+          205.8303,
+          137.033
+        ],
+        "reference_xy": [
+          139.2504,
+          526.9213
+        ],
+        "residual_pixels": 54.2948,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 25,
+        "source_xy": [
+          691.3365,
+          690.42
+        ],
+        "reference_xy": [
+          207.4725,
+          658.9757
+        ],
+        "residual_pixels": 65.2477,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 26,
+        "source_xy": [
+          674.1523,
+          875.7031
+        ],
+        "reference_xy": [
+          159.1754,
+          719.8414
+        ],
+        "residual_pixels": 136.6302,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 27,
+        "source_xy": [
+          670.6185,
+          97.7428
+        ],
+        "reference_xy": [
+          170.8889,
+          440.4063
+        ],
+        "residual_pixels": 0.7198,
+        "is_inlier": true,
+        "status": "INLIER"
+      },
+      {
+        "index": 28,
+        "source_xy": [
+          670.6185,
+          97.7428
+        ],
+        "reference_xy": [
+          170.8889,
+          440.4063
+        ],
+        "residual_pixels": 0.7198,
+        "is_inlier": true,
+        "status": "INLIER"
+      },
+      {
+        "index": 29,
+        "source_xy": [
+          662.488,
+          883.7603
+        ],
+        "reference_xy": [
+          191.9958,
+          719.0507
+        ],
+        "residual_pixels": 111.5343,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 30,
+        "source_xy": [
+          662.3047,
+          836.3792
+        ],
+        "reference_xy": [
+          176.6133,
+          737.3082
+        ],
+        "residual_pixels": 100.0689,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 31,
+        "source_xy": [
+          656.9076,
+          860.1597
+        ],
+        "reference_xy": [
+          163.1709,
+          686.1277
+        ],
+        "residual_pixels": 145.0953,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 32,
+        "source_xy": [
+          652.6869,
+          661.3311
+        ],
+        "reference_xy": [
+          245.9311,
+          692.0431
+        ],
+        "residual_pixels": 0.0809,
+        "is_inlier": true,
+        "status": "INLIER"
+      },
+      {
+        "index": 33,
+        "source_xy": [
+          652.6869,
+          661.3311
+        ],
+        "reference_xy": [
+          245.9311,
+          692.0431
+        ],
+        "residual_pixels": 0.0809,
+        "is_inlier": true,
+        "status": "INLIER"
+      },
+      {
+        "index": 34,
+        "source_xy": [
+          646.6964,
+          842.5831
+        ],
+        "reference_xy": [
+          213.0784,
+          770.383
+        ],
+        "residual_pixels": 56.6789,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 35,
+        "source_xy": [
+          1716.6714,
+          370.6963
+        ],
+        "reference_xy": [
+          569.0895,
+          587.7704
+        ],
+        "residual_pixels": 207.9505,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 36,
+        "source_xy": [
+          632.4131,
+          635.1598
+        ],
+        "reference_xy": [
+          187.2624,
+          626.3908
+        ],
+        "residual_pixels": 75.7482,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 37,
+        "source_xy": [
+          632.1226,
+          665.6968
+        ],
+        "reference_xy": [
+          177.4694,
+          646.2304
+        ],
+        "residual_pixels": 81.9149,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 38,
+        "source_xy": [
+          618.897,
+          639.7014
+        ],
+        "reference_xy": [
+          171.9172,
+          613.7725
+        ],
+        "residual_pixels": 96.5004,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 39,
+        "source_xy": [
+          611.5776,
+          149.1879
+        ],
+        "reference_xy": [
+          166.0696,
+          534.4275
+        ],
+        "residual_pixels": 66.5737,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 40,
+        "source_xy": [
+          601.1487,
+          588.7078
+        ],
+        "reference_xy": [
+          195.0807,
+          602.6334
+        ],
+        "residual_pixels": 68.892,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 41,
+        "source_xy": [
+          221.8752,
+          138.1903
+        ],
+        "reference_xy": [
+          124.5374,
+          499.0176
+        ],
+        "residual_pixels": 25.7277,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 42,
+        "source_xy": [
+          589.7213,
+          592.3316
+        ],
+        "reference_xy": [
+          207.8786,
+          616.5786
+        ],
+        "residual_pixels": 52.6263,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 43,
+        "source_xy": [
+          589.7213,
+          592.3316
+        ],
+        "reference_xy": [
+          207.8786,
+          616.5786
+        ],
+        "residual_pixels": 52.6263,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 44,
+        "source_xy": [
+          298.0984,
+          462.7499
+        ],
+        "reference_xy": [
+          144.1064,
+          654.2528
+        ],
+        "residual_pixels": 27.0319,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 45,
+        "source_xy": [
+          583.6108,
+          608.4612
+        ],
+        "reference_xy": [
+          190,
+          628
+        ],
+        "residual_pixels": 58.6568,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 46,
+        "source_xy": [
+          225.3685,
+          408.4446
+        ],
+        "reference_xy": [
+          91.3347,
+          551.7563
+        ],
+        "residual_pixels": 75.8965,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 47,
+        "source_xy": [
+          579.7303,
+          618.3445
+        ],
+        "reference_xy": [
+          153,
+          583
+        ],
+        "residual_pixels": 121.0019,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 48,
+        "source_xy": [
+          566.5908,
+          521.0931
+        ],
+        "reference_xy": [
+          152.9728,
+          684.7142
+        ],
+        "residual_pixels": 76.1376,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 49,
+        "source_xy": [
+          1704.7218,
+          369.8577
+        ],
+        "reference_xy": [
+          560.0516,
+          569.966
+        ],
+        "residual_pixels": 193.1613,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 50,
+        "source_xy": [
+          562.9562,
+          609.5762
+        ],
+        "reference_xy": [
+          169.6688,
+          628.0356
+        ],
+        "residual_pixels": 71.8098,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 51,
+        "source_xy": [
+          562.9562,
+          609.5762
+        ],
+        "reference_xy": [
+          169.6688,
+          628.0356
+        ],
+        "residual_pixels": 71.8098,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 52,
+        "source_xy": [
+          548.8382,
+          492.2294
+        ],
+        "reference_xy": [
+          107,
+          621
+        ],
+        "residual_pixels": 97.7857,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 53,
+        "source_xy": [
+          73.5726,
+          791.0358
+        ],
+        "reference_xy": [
+          80.7251,
+          704.4265
+        ],
+        "residual_pixels": 121.5873,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 54,
+        "source_xy": [
+          537.6262,
+          491.4758
+        ],
+        "reference_xy": [
+          123.8762,
+          646.9374
+        ],
+        "residual_pixels": 81.6985,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 55,
+        "source_xy": [
+          890.0413,
+          300.326
+        ],
+        "reference_xy": [
+          220.142,
+          568.7693
+        ],
+        "residual_pixels": 57.4655,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 56,
+        "source_xy": [
+          529.697,
+          414.0936
+        ],
+        "reference_xy": [
+          155.9848,
+          539.1166
+        ],
+        "residual_pixels": 62.9282,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 57,
+        "source_xy": [
+          527.3088,
+          559.0995
+        ],
+        "reference_xy": [
+          234.9109,
+          658.9632
+        ],
+        "residual_pixels": 24.8986,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 58,
+        "source_xy": [
+          525.9286,
+          591.7783
+        ],
+        "reference_xy": [
+          1711.1572,
+          -0.5664
+        ],
+        "residual_pixels": 1640.3861,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 59,
+        "source_xy": [
+          890.7067,
+          605.1029
+        ],
+        "reference_xy": [
+          273.7087,
+          660.6606
+        ],
+        "residual_pixels": 12.8185,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 60,
+        "source_xy": [
+          1321.0885,
+          714.9796
+        ],
+        "reference_xy": [
+          595.4201,
+          744.1324
+        ],
+        "residual_pixels": 240.1084,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 61,
+        "source_xy": [
+          510.0626,
+          181.4962
+        ],
+        "reference_xy": [
+          179.2869,
+          460.5382
+        ],
+        "residual_pixels": 37.8776,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 62,
+        "source_xy": [
+          161.6893,
+          343.5907
+        ],
+        "reference_xy": [
+          117,
+          588
+        ],
+        "residual_pixels": 0.487,
+        "is_inlier": true,
+        "status": "INLIER"
+      },
+      {
+        "index": 63,
+        "source_xy": [
+          161.6893,
+          343.5907
+        ],
+        "reference_xy": [
+          117,
+          588
+        ],
+        "residual_pixels": 0.487,
+        "is_inlier": true,
+        "status": "INLIER"
+      },
+      {
+        "index": 64,
+        "source_xy": [
+          486.8614,
+          100.2749
+        ],
+        "reference_xy": [
+          173.6792,
+          584.0901
+        ],
+        "residual_pixels": 132.7634,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 65,
+        "source_xy": [
+          480.5943,
+          143.3086
+        ],
+        "reference_xy": [
+          174.0085,
+          582.9218
+        ],
+        "residual_pixels": 111.568,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 66,
+        "source_xy": [
+          475.9788,
+          342.6437
+        ],
+        "reference_xy": [
+          165.7723,
+          522.6738
+        ],
+        "residual_pixels": 41.7087,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 67,
+        "source_xy": [
+          470.032,
+          395.3779
+        ],
+        "reference_xy": [
+          172.3007,
+          627.4333
+        ],
+        "residual_pixels": 39.9941,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 68,
+        "source_xy": [
+          454.3419,
+          417.2499
+        ],
+        "reference_xy": [
+          159.7408,
+          643.743
+        ],
+        "residual_pixels": 48.6327,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 69,
+        "source_xy": [
+          1035.4878,
+          357.2312
+        ],
+        "reference_xy": [
+          280.2416,
+          381.7534
+        ],
+        "residual_pixels": 146.7669,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 70,
+        "source_xy": [
+          24.2385,
+          64.0055
+        ],
+        "reference_xy": [
+          -13.4314,
+          769.8176
+        ],
+        "residual_pixels": 303.2473,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 71,
+        "source_xy": [
+          390.7041,
+          374.8077
+        ],
+        "reference_xy": [
+          123.7135,
+          611.5514
+        ],
+        "residual_pixels": 46.192,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 72,
+        "source_xy": [
+          1569.1599,
+          657.6872
+        ],
+        "reference_xy": [
+          406.7579,
+          700.8281
+        ],
+        "residual_pixels": 79.7265,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 73,
+        "source_xy": [
+          1569.1599,
+          657.6872
+        ],
+        "reference_xy": [
+          406.7579,
+          700.8281
+        ],
+        "residual_pixels": 79.7265,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 74,
+        "source_xy": [
+          431.8019,
+          429.6363
+        ],
+        "reference_xy": [
+          159.5175,
+          633.3707
+        ],
+        "residual_pixels": 31.9837,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 75,
+        "source_xy": [
+          463.6576,
+          441.7054
+        ],
+        "reference_xy": [
+          176.0983,
+          585.561
+        ],
+        "residual_pixels": 24.3162,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 76,
+        "source_xy": [
+          506.9077,
+          167.4363
+        ],
+        "reference_xy": [
+          170.8626,
+          509.899
+        ],
+        "residual_pixels": 31.6097,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 77,
+        "source_xy": [
+          771.3082,
+          211.6895
+        ],
+        "reference_xy": [
+          196.9333,
+          575.7259
+        ],
+        "residual_pixels": 92.4848,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 78,
+        "source_xy": [
+          641.4511,
+          327.0706
+        ],
+        "reference_xy": [
+          206.0891,
+          647.1472
+        ],
+        "residual_pixels": 102.9004,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 79,
+        "source_xy": [
+          763.1407,
+          758.7756
+        ],
+        "reference_xy": [
+          1233.3146,
+          -30.1284
+        ],
+        "residual_pixels": 1218.6715,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 80,
+        "source_xy": [
+          229.1543,
+          433.7505
+        ],
+        "reference_xy": [
+          107.0367,
+          648.8668
+        ],
+        "residual_pixels": 43.0576,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 81,
+        "source_xy": [
+          901.8807,
+          136.8959
+        ],
+        "reference_xy": [
+          300.1506,
+          580.8416
+        ],
+        "residual_pixels": 163.1774,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 82,
+        "source_xy": [
+          585.2885,
+          397.6064
+        ],
+        "reference_xy": [
+          189.8843,
+          628.699
+        ],
+        "residual_pixels": 49.2725,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 83,
+        "source_xy": [
+          946.4601,
+          703.1245
+        ],
+        "reference_xy": [
+          346.8946,
+          618.1426
+        ],
+        "residual_pixels": 83.1845,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 84,
+        "source_xy": [
+          958.2825,
+          608.7842
+        ],
+        "reference_xy": [
+          433.8695,
+          557.9526
+        ],
+        "residual_pixels": 167.2822,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 85,
+        "source_xy": [
+          472.9156,
+          599.1756
+        ],
+        "reference_xy": [
+          861.965,
+          810.8242
+        ],
+        "residual_pixels": 668.9937,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 86,
+        "source_xy": [
+          742.0314,
+          388.9349
+        ],
+        "reference_xy": [
+          370.5588,
+          974.9338
+        ],
+        "residual_pixels": 435.9375,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 87,
+        "source_xy": [
+          285.1049,
+          188.6642
+        ],
+        "reference_xy": [
+          94.7407,
+          582.3494
+        ],
+        "residual_pixels": 75.7738,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 88,
+        "source_xy": [
+          810.5065,
+          870.3796
+        ],
+        "reference_xy": [
+          1721.1399,
+          959.2357
+        ],
+        "residual_pixels": 1431.5275,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 89,
+        "source_xy": [
+          815.9718,
+          111.8705
+        ],
+        "reference_xy": [
+          1776.6238,
+          94.8296
+        ],
+        "residual_pixels": 1614.4492,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 90,
+        "source_xy": [
+          1053.4104,
+          449.6185
+        ],
+        "reference_xy": [
+          1088.2233,
+          647.571
+        ],
+        "residual_pixels": 806.2072,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      },
+      {
+        "index": 91,
+        "source_xy": [
+          1633.9705,
+          862.5465
+        ],
+        "reference_xy": [
+          436.5527,
+          694.2708
+        ],
+        "residual_pixels": 14.363,
+        "is_inlier": false,
+        "status": "OUTLIER"
+      }
+    ]
+  },
+  "geometric_registration": {
+    "model": "homography",
+    "rmse_pixels": 0.9706098437309265
+  },
+  "scientific_validation": {
+    "quality_status": "FAIL",
+    "case_classification": "CASE_C_POOR_CORRESPONDENCE"
+  }
+}

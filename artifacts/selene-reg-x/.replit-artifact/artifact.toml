@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "SELENE-REG X"
+description = "A scientific workstation for multi-modal lunar image correspondence, illumination-robust registration, inlier investigation, and validated sub-pixel refinement."
+version = "1.0.0"
+id = "artifacts/selene-reg-x"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18391
+
+[services.development]
+run = "pnpm --filter @workspace/selene-reg-x run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/selene-reg-x", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/selene-reg-x/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18391"
+BASE_PATH = "/"

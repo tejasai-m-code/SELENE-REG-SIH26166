@@ -1,0 +1,10 @@
+{
+  "detector": "sift",
+  "ratio": 0.75,
+  "ransac_threshold": 3.0,
+  "illumination_normalization": true,
+  "spatial_distribution": true,
+  "radiometric_mode": "safe_normalization",
+  "representation": "structural",
+  "refinement_methods": "ecc,lucas_kanade,phase_correlation,quadratic_peak"
+}

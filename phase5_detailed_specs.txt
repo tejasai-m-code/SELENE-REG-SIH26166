@@ -1,0 +1,780 @@
+
+
+================================================================================# 2. CRITICAL CHANGE — REMOVE THE CURRENT "REGISTERED VIEW" FROM THE PRIMARY UI
+
+
+
+The current Registered View is misleading for this project.
+
+
+
+It warps the source image into the reference frame and displays only the common/cropped portion.
+
+
+
+This is NOT the primary scientific output we want.
+
+
+
+The current behavior resembles:
+
+
+
+SOURCE
+
+↓
+
+warp to reference
+
+↓
+
+cropped/common region
+
+↓
+
+display
+
+
+
+Remove this from the primary user-facing result interface.
+
+
+
+Do not make the cropped registered image the main result.
+
+
+
+If the warp is still useful internally for numerical verification, it may remain as an internal backend artifact, but it must not be presented as the primary visualization.
+
+
+
+---
+
+
+
+
+# 3. REPLACE IT WITH "SCIENTIFIC CANONICAL MATCH VISUALIZATION"
+
+
+
+The primary pair-registration visualization must become:
+
+
+
+## SCIENTIFIC CANONICAL MATCH VISUALIZATION
+
+
+
+It must show:
+
+
+
+LEFT:
+
+SOURCE / MOVING IMAGE
+
+
+
+RIGHT:
+
+REFERENCE / FIXED IMAGE
+
+
+
+The COMPLETE source image and COMPLETE reference image must remain visible.
+
+
+
+Do NOT crop either image simply to show overlap.
+
+
+
+Draw only scientifically verified correspondence lines.
+
+
+
+The visualization should clearly communicate:
+
+
+
+> "These pixels/features in the source image correspond to these pixels/features in the reference image."
+
+
+
+---
+
+
+
+
+# 4. CORRESPONDENCE LINE RULE — VERY IMPORTANT
+
+
+
+The current interface shows green and red lines.
+
+
+
+The green lines represent valid/verified correspondences.
+
+
+
+The red lines represent rejected/outlier correspondences.
+
+
+
+For the primary scientific visualization:
+
+
+
+## DO NOT SHOW RED REJECTED LINES.
+
+
+
+They create visual noise and make the visualization look incorrect.
+
+
+
+Rejected matches may still exist internally for diagnostics, but the primary visualization must contain:
+
+
+
+* verified inliers only
+
+* valid correspondence points only
+
+* valid correspondence lines only
+
+
+
+Use:
+
+
+
+GREEN = verified correspondence
+
+
+
+Optional secondary colors may be used for:
+
+
+
+* selected correspondence
+
+* hovered correspondence
+
+* active correspondence
+
+* confidence categories
+
+
+
+But never show rejected/outlier lines in the primary canonical view.
+
+
+
+---
+
+
+
+
+# 5. EVERY GREEN LINE MUST BE REAL
+
+
+
+Do not draw decorative lines.
+
+
+
+For every displayed correspondence:
+
+
+
+source point:
+
+
+
+(x_s, y_s)
+
+
+
+must map to:
+
+
+
+(x_r, y_r)
+
+
+
+through the actual verified correspondence/geometric model.
+
+
+
+The system must verify:
+
+
+
+1. source point exists
+
+2. reference point exists
+
+3. source point lies inside source image
+
+4. reference point lies inside reference image
+
+5. correspondence survived geometric verification
+
+6. reprojection error is available
+
+7. confidence is available or explicitly marked unavailable
+
+8. point is not an internally rejected outlier
+
+
+
+Only then may the correspondence be displayed.
+
+
+
+---
+
+
+
+
+# 6. SMALL SOURCE IMAGE INSIDE LARGE REFERENCE IMAGE
+
+
+
+A very important use case is:
+
+
+
+SOURCE = small image
+
+
+
+REFERENCE = large image
+
+
+
+The source image may represent a small region contained inside the reference image.
+
+
+
+The visualization must therefore clearly show:
+
+
+
+SOURCE:
+
+
+
++----------------+
+
+| small image    |
+
+|                |
+
+|   ● ● ● ●      |
+
+|   ● ● ● ●      |
+
++----------------+
+
+
+
+REFERENCE:
+
+
+
++--------------------------------+
+
+|                                |
+
+|       ●        ●               |
+
+|       |        |               |
+
+|       |        |               |
+
+|       ●--------●               |
+
+|                                |
+
++--------------------------------+
+
+
+
+The lines must connect actual source points to their corresponding reference points.
+
+
+
+Do not stretch the source image artificially to make it look like the reference.
+
+
+
+Do not crop the reference image merely to hide the fact that the source is smaller.
+
+
+
+Preserve the geometry.
+
+
+
+---
+
+
+
+
+# 7. CANONICAL VISUALIZATION INTERACTION
+
+
+
+Make the canonical visualization interactive.
+
+
+
+Every verified correspondence point must be:
+
+
+
+* hoverable
+
+* clickable
+
+* selectable
+
+* inspectable
+
+
+
+When the user hovers over a point, show a tooltip.
+
+
+
+Example:
+
+
+
+CORRESPONDENCE #37
+
+
+
+SOURCE
+
+X: 213.482 px
+
+Y: 147.913 px
+
+
+
+REFERENCE
+
+X: 861.204 px
+
+Y: 394.821 px
+
+
+
+MATCH CONFIDENCE
+
+94.7%
+
+
+
+REPROJECTION RESIDUAL
+
+0.38 px
+
+
+
+STATUS
+
+VERIFIED INLIER
+
+
+
+SUB-PIXEL REFINEMENT
+
+ECC
+
+
+
+SUB-PIXEL RESIDUAL
+
+0.21 px
+
+
+
+SPATIAL COVERAGE
+
+Cell 7 / 16
+
+
+
+---
+
+
+
+
+# 8. CLICKABLE MATCH INSPECTOR
+
+
+
+When a correspondence is clicked, open a professional Match Inspector panel.
+
+
+
+It must show:
+
+
+
+### Match identity
+
+
+
+* Match ID
+
+* source image
+
+* reference image
+
+* pair ID
+
+* graph edge ID if applicable
+
+
+
+### Pixel coordinates
+
+
+
+* source X
+
+* source Y
+
+* reference X
+
+* reference Y
+
+
+
+Coordinates must be in original image pixel coordinates, not merely display coordinates.
+
+
+
+If the visualization is resized, maintain the correct coordinate transform.
+
+
+
+### Confidence
+
+
+
+Show the actual calculated confidence.
+
+
+
+Do not simply use:
+
+
+
+"confidence = inlier"
+
+
+
+or
+
+
+
+"confidence = 99%"
+
+
+
+unless the number comes from a real model.
+
+
+
+Confidence can incorporate real measurable factors such as:
+
+
+
+* descriptor similarity
+
+* ratio-test margin
+
+* reprojection residual
+
+* local correlation
+
+* geometric consistency
+
+* refinement residual
+
+
+
+Document the formula.
+
+
+
+### Sub-pixel inspection
+
+
+
+Show:
+
+
+
+* integer coordinate
+
+* refined coordinate
+
+* dx
+
+* dy
+
+* residual
+
+* refinement method
+
+* convergence status
+
+* iterations
+
+* local patch/correlation information
+
+
+
+### Spatial coverage
+
+
+
+Show where this point sits spatially in the source/reference images.
+
+
+
+Example:
+
+
+
+Source coverage:
+
+3 / 4 rows
+
+4 / 4 columns
+
+
+
+Reference coverage:
+
+2 / 4 rows
+
+3 / 4 columns
+
+
+
+Display a small spatial coverage map.
+
+
+
+---
+
+
+
+
+# 33. IMAGE VIEWER
+
+
+
+Build a high-quality interactive viewer.
+
+
+
+Required:
+
+
+
+* zoom
+
+* pan
+
+* fit
+
+* reset
+
+* fullscreen
+
+* opacity
+
+* source/reference toggle
+
+* correspondence visibility
+
+* selected point
+
+* coordinate readout
+
+* pixel inspection
+
+
+
+Do not allow UI coordinate scaling errors.
+
+
+
+Coordinate conversion must account for:
+
+
+
+original image size
+
+display size
+
+zoom
+
+pan
+
+device pixel ratio
+
+
+
+---
+
+
+
+
+# 34. MATCH LAYER
+
+
+
+Provide:
+
+
+
+MATCHES
+
+
+
+Verified correspondences:
+
+180
+
+
+
+Rejected internally:
+
+241
+
+
+
+Displayed:
+
+180 verified
+
+
+
+But rejected lines remain hidden from the primary visualization.
+
+
+
+A diagnostic toggle may exist in an advanced developer/QA panel if useful, but it must not contaminate the main scientific view.
+
+
+
+---
+
+
+
+
+# 35. SCIENTIFIC CANONICAL VIEW LAYOUT
+
+
+
+Use a layout like:
+
+
+
+---
+
+
+
+## SCIENCE / CORRESPONDENCE
+
+
+
+SOURCE / MOVING          REFERENCE / FIXED
+
+
+
+[full image]             [full image]
+
+
+
+```
+
+  ●----------------------●
+
+   \                    /
+
+    ●------------------●
+
+```
+
+
+
+---
+
+
+
+VERIFIED MATCHES     180
+
+INLIER RATIO         91.4%
+
+RMSE                 0.38 px
+
+COVERAGE             68%
+
+MODEL                HOMOGRAPHY
+
+
+
+---
+
+
+
+SELECTED MATCH
+
+Source:      (213.482, 147.913)
+
+Reference:   (861.204, 394.821)
+
+Confidence:  94.7%
+
+Residual:    0.38 px
+
+
+
+---
+
+
+
+SUB-PIXEL INSPECTION
+
+Method: ECC
+
+dx: ...
+
+dy: ...
+
+Residual: ...
+
+Converged: YES
+
+
+
+---
+
+
+
+---
+
+

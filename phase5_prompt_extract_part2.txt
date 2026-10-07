@@ -1,0 +1,25 @@
+# 6. Commitments & Constraints
+- Must NOT claim real lunar flight mission validation without testing real mission imagery (synthetic benchmarks must be explicitly noted).
+- All 5 sub-pixel methods must perform real mathematical computation.
+- Do NOT begin Phase 5 until user reviews and accepts the Phase 4 report.
+</summary>
+
+You have the 1 following artifacts written to the artifacts directory:
+
+[ARTIFACT: uploaded_media_1790859050751]
+Path: file:///C:/Users/thann/.gemini/antigravity-ide/brain/1be57fa0-73b0-42ce-9d8b-6c4c4101a8f9/.user_uploaded/uploaded_media_1790859050751.img
+Last Edited: 2026-10-01T12:50:50Z
+
+# Running Background Tasks
+The following background tasks were running at the time this checkpoint was created.
+Use the manage_task tool to interact with them (e.g. to kill them or check their status).
+
+{
+  "taskId": "1be57fa0-73b0-42ce-9d8b-6c4c4101a8f9/task-901",
+  "toolName": "run_command",
+  "toolSummary": "Check api-server healthz",
+  "description": "curl -s http://localhost:5000/api/healthz",
+  "startTime": "2026-10-01T20:38:37.249313700Z",
+  "stepIndex": 901,
+  "logUri": "file:///C:/Users/thann/.gemini/antigravity-ide/brain/1be57fa0-73b0-42ce-9d8b-6c4c4101a8f9/.system_generated/tasks/task-901.log"
+}

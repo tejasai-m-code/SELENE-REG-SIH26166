@@ -1,0 +1,200 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: registration
+    description: Pairwise lunar image registration
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /register:
+    post:
+      operationId: registerLunarPair
+      tags: [registration]
+      summary: Register two lunar raster images
+      description: Runs the OpenCV correspondence, geometric verification, illumination preparation, and optional sub-pixel refinement pipeline.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/LunarPairInput"
+      responses:
+        "200":
+          description: Registration evidence and generated outputs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LunarPairResult"
+        "400":
+          description: Invalid image or insufficient evidence
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Processing failure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    LunarPairInput:
+      type: object
+      required: [source, reference]
+      properties:
+        source:
+          type: string
+          format: binary
+        reference:
+          type: string
+          format: binary
+        source_sensor:
+          type: string
+          default: UNKNOWN
+        reference_sensor:
+          type: string
+          default: UNKNOWN
+        source_gsd_m:
+          type: ["number", "null"]
+        reference_gsd_m:
+          type: ["number", "null"]
+        source_solar_incidence_deg:
+          type: ["number", "null"]
+        reference_solar_incidence_deg:
+          type: ["number", "null"]
+        detector:
+          type: string
+          enum: [sift, orb, akaze]
+          default: sift
+        ratio:
+          type: number
+          minimum: 0.55
+          maximum: 0.95
+          default: 0.72
+        ransac_threshold:
+          type: number
+          minimum: 0.5
+          maximum: 20
+          default: 3
+        max_features:
+          type: integer
+          minimum: 500
+          maximum: 20000
+          default: 8000
+        illumination_normalization:
+          type: boolean
+          default: true
+        spatial_distribution:
+          type: boolean
+          default: true
+        radiometric_mode:
+          type: string
+          enum: [safe_normalization, metadata_calibration]
+          default: safe_normalization
+        representation:
+          type: string
+          enum: [auto, raw, percentile, clahe, gradient, highpass, retinex, structural]
+          default: auto
+        refinement_methods:
+          type: string
+          description: Comma-separated methods selected after geometric registration.
+          default: ecc,lucas_kanade,phase_correlation,quadratic_peak
+    LunarPairResult:
+      type: object
+      required: [success, job_id, metrics, inlier_investigation, outputs]
+      properties:
+        success:
+          type: boolean
+        registration_status:
+          type: string
+          enum: [PASS, PASS_WITH_WARNING, REVIEW, FAIL]
+        job_id:
+          type: string
+        problem_statement:
+          type: string
+        source:
+          type: object
+          additionalProperties: true
+        reference:
+          type: object
+          additionalProperties: true
+        settings:
+          type: object
+          additionalProperties: true
+        preprocessing:
+          type: object
+          additionalProperties: true
+        metrics:
+          type: object
+          additionalProperties: true
+        inlier_investigation:
+          type: object
+          additionalProperties: true
+        subpixel:
+          type: object
+          additionalProperties: true
+        homography:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+        inlier_points:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        footprint:
+          type: object
+          additionalProperties: true
+        geometric_model:
+          type: string
+        estimator_used:
+          type: string
+        overlap_validation:
+          type: object
+          additionalProperties: true
+        gsd_handling:
+          type: object
+          additionalProperties: true
+        stage_timings:
+          type: object
+          additionalProperties: true
+        outputs:
+          type: object
+          additionalProperties: true
+    ErrorResponse:
+      type: object
+      required: [detail]
+      properties:
+        detail:
+          type: string
+

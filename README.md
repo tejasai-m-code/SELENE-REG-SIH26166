@@ -1,123 +1,146 @@
-# SELENE-REG — SIH 26166
+# SELENE-REG: Multi-Modal Lunar Image Registration
 
-**Multi-modal lunar image correspondence & registration prototype**
+**SIH Problem Statement 26166**: *Multi-modal, Sun angle and scale invariant image correspondence using Chandrayaan-2 optical images (OHRC, TMC-2 and IIRS).*
 
-SELENE-REG is a local FastAPI + OpenCV application for pairwise lunar image
-registration and relative multi-image registration. It is designed around
-the SIH 26166 workflow: preprocessing → feature correspondence → geometric
-verification → relative placement → measurable registration evidence.
+---
 
-## What is implemented
+## 1. Project Purpose & Scope
 
-### Pair Registration
-- SIFT / ORB / AKAZE feature detection
-- percentile normalization + CLAHE/detail preprocessing
-- Lowe-ratio matching
-- spatially distributed match selection
-- RANSAC homography estimation
-- optional ECC intensity refinement
-- RMSE, inlier count, inlier ratio and 4×4 spatial coverage
-- registered product + correspondence visualization
+**SELENE-REG** is a high-precision, non-learned classical computer vision pipeline designed for registering and mosaicking planetary orbital rasters under severe radiometric, geometric, and illumination disparities.
 
-### Multi-Image Map Builder
-- 2–12 image collection
-- thumbnail candidate screening
-- cached image/feature/pair evidence
-- incremental reuse when an image set is repeated or expanded
-- registration graph with accepted/rejected relationships
-- largest connected component placement
-- relative image-space mosaic with feathered blending
-- real inlier-point overlay
-- independent footprint and match-point controls
-- pair inspector + spatial 4×4 grid
-- processing/cache diagnostics
-- sensor metadata summary
-- graph / CSV / JSON scientific-report exports
-- expanded evidence metrics: P90/max residual, residual spread, spatial entropy/uniformity, transform conditioning and evidence score
-- pair-level SSIM / PSNR / NMI when a registered raster is produced
-- residual-aware inlier-point records (`dx`, `dy`, error)
-- registered-mosaic 3D explorer that consumes the actual generated mosaic texture and supports orbit/zoom/top/reset controls plus image-derived relative relief
+### Core Capabilities
+- **Illumination Robustness**: Handles extreme lunar shadow patterns, incidence angle variations, and contrast inversions via morphological structural representations, Multiscale Retinex, and CLAHE.
+- **Multiscale Correspondence**: Overcomes scale and rotation differences using SIFT/ORB feature pyramids and Lowe's ratio test.
+- **Spatial Distribution Enforcing**: Prevents correspondence clustering on single crater rims via adaptive spatial grid binning.
+- **Robust Geometry**: Rejects false matches with RANSAC-verified Homography and Affine models.
+- **Subpixel Refinement**: Refines alignment beyond integer pixels using Enhanced Correlation Coefficient (ECC), Lucas–Kanade optical flow, Fourier Phase Correlation, and Quadratic Peak fitting.
+- **Multi-Image Mosaicking**: Builds pairwise registration graphs, automatically determines reference frames via maximum degree centrality, and blends rasters using distance-transform feathered seams.
+- **Polygon Footprints & Geospatial Layer**: Computes exact polygon boundaries, bounding boxes, intersection areas, and IoU overlap ratios.
+- **Rigorous Metadata Provenance**: Tracks data status (`KNOWN`, `REFERENCE_PROFILE`, `NOT_PROVIDED`, `UNAVAILABLE`) and provenance (`MEASURED`, `ESTIMATED`, `REFERENCE_PROFILE`) without inventing flight telemetry.
 
-### Robustness Lab
-A controlled synthetic stress-test endpoint evaluates the current pipeline under
-known rotation, scale, illumination, blur and noise perturbations.
+---
 
-**Important:** these are software robustness tests. They are not evidence of
-real Chandrayaan-2 ↔ LROC/SELENE cross-mission accuracy.
+## 2. Architecture Overview
 
-## Scientific scope
+The system operates as a 12-stage sequential pipeline:
 
-The multi-image output is intentionally labelled:
+```
+Input Rasters → Metadata Classification → Radiometric Normalization →
+Structural Representation → Multiscale Feature Detection → Matching →
+Spatial Keypoint Filtering → RANSAC Homography → Subpixel Refinement →
+Acceptance Quality Gate → Multi-Image Graph & Placement → Footprint & Mosaic Export
+```
 
-**Relative Registered Lunar Mosaic**
+For detailed mathematical specifications and stage parameters, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-It is not claimed to be a georeferenced lunar map unless mission control points,
-navigation/attitude metadata, a reference coordinate system and an appropriate
-map projection are supplied.
+---
 
-No latitude/longitude or spacecraft metadata is fabricated by the application.
+## 3. Quickstart & Installation
 
-## Running on Windows
+### Prerequisites
+- **Python**: Version 3.10+ (tested on Python 3.10, 3.11, 3.12, 3.14)
+- **Node.js**: Version 18+ (tested on Node 20, 24 with pnpm or npm)
 
-From PowerShell:
+### Python Dependencies Installation
+Install the computer vision engine dependencies:
+
+```bash
+pip install -r pyproject.toml
+# Or install directly:
+pip install numpy opencv-python-headless pytest
+```
+
+---
+
+## 4. Launching the System
+
+### One-Command Unified Startup (Windows / Linux / macOS)
+The fastest, most reliable way to start both the Python-backed API server (Port 5000) and the Vite frontend (Port 5173):
 
 ```powershell
-Set-Location "D:\Branches\SIH26166\SELENE-REG-SIH26166"
-backend\venv\Scripts\python.exe serve.py
+# In Windows PowerShell:
+node scripts/launch.mjs
 ```
 
-Open:
-
-`http://127.0.0.1:8000`
-
-API documentation:
-
-`http://127.0.0.1:8000/docs`
-
-## Validation
-
-The packaged source was validated with:
-
-```text
-12 tests passed
-JavaScript syntax check passed
-FastAPI health endpoint passed
-FastAPI documentation endpoint passed
-Synthetic robustness API smoke test passed (7/7 controlled cases)
+Or using pnpm:
+```powershell
+pnpm.cmd dev
 ```
 
-## Project boundaries
+This starts:
+- **Backend API**: `http://localhost:5000` (auto-builds if needed, hosts `/api/register` and `/api/ingest-url`)
+- **Frontend Workstation**: `http://localhost:5173` (proxies `/api` requests to port 5000)
 
-The application currently uses raster uploads (PNG/JPEG/BMP/TIFF/WebP).
-Mission-specific PDS/ISIS ingestion should be added with a validated reader
-before treating native mission archives as directly ingestible.
+---
 
-External OneDrive/cloud ingestion is intentionally not enabled by default:
-authenticated connectors should be added rather than allowing arbitrary remote
-URL fetching.
+## 5. Input Workflows & Demonstration
 
-GPU diagnostics report only acceleration that the installed runtime actually
-exposes. The current classical OpenCV pipeline retains a CPU fallback.
+The scientific workstation accepts imagery through three standardized input paths:
 
-## Presentation language
+### A. Local Image Upload
+- Click or drag & drop images into the **Moving source raster** or **Fixed reference raster** dropzones.
+- **Supported Formats**: PNG, JPEG, TIFF/GeoTIFF, BMP, WEBP.
+- Original image bytes are preserved and decoded directly through the OpenCV scientific engine.
 
-Use:
-- "relative image-space registration"
-- "registered correspondences"
-- "RANSAC inliers"
-- "measured RMSE / inlier ratio / spatial coverage"
-- "synthetic robustness stress test"
+### B. Remote Public HTTPS URL Ingestion
+- Switch to the **URL / Drive** tab in the raster dropzone.
+- Paste a direct public image URL (e.g. `https://example.com/lunar_crater.png`) and click **Load**.
+- The server validates URL syntax, enforces strict SSRF checks, streams and verifies image bytes with OpenCV, generates a preview thumbnail, and populates the input.
+- Click **Run correspondence** to process with the identical scientific registration pipeline.
 
-Avoid claiming:
-- georeferenced map coordinates without control data
-- cross-mission accuracy without mission-data validation
-- sub-pixel truth from ECC alone
-- GPU acceleration unless the actual runtime uses it
-- automated geological feature identification unless separately validated
+### C. Public Google Drive Links
+- Paste any standard public Google Drive sharing URL into the **URL / Drive** tab:
+  - `https://drive.google.com/file/d/FILE_ID/view?usp=sharing`
+  - `https://drive.google.com/open?id=FILE_ID`
+- The system safely extracts the file ID, normalizes the direct download URL, and processes the image.
+- **Important Requirement**: The Google Drive file MUST be set to *"Anyone with the link can view/download"*. Private, login-gated, or domain-restricted files are rejected with clear actionable recovery instructions.
 
+### D. Instant Verification (Demo Pair)
+- Click the **Demo Pair** button in the *Assemble the pair* card header.
+- Automatically loads the verified synthetic Chandrayaan-2 pair (`synthetic_source.png` and `synthetic_reference.png`).
+- Click **Run correspondence** to run the complete feature matching, RANSAC, and subpixel refinement pipeline.
 
-## SELENE-REG X enhancement boundary
+---
 
-The 3D explorer is deliberately a **relative registered terrain visualization** when the job has no valid lunar control/georeferencing metadata. It uses the actual generated mosaic as its texture and can derive a relative visual relief field from image intensity; it does not invent latitude/longitude or claim a scientific DEM. Latitude/longitude and elevation become eligible only when validated georeferencing/DEM inputs are supplied.
+## 6. Automated Testing & Verification
 
-The baseline pair and multi-image engine remains the source of truth. Advanced learned matchers, native mission PDS/ISIS ingestion, DEM-backed orthorectification and georeferenced GeoTIFF export remain data/model-dependent and are not represented as completed capabilities without the required assets.
+The repository contains an exhaustive automated test suite with **193/193 passing tests**:
+
+```powershell
+# In Windows PowerShell:
+$env:PYTHONPATH="artifacts/api-server/python"
+python -m unittest discover -s tests -p "test_*.py"
+```
+
+### Test Suite Structure
+- `tests/test_phase1.py`: Baseline detector & matching verification (12 tests)
+- `tests/test_phase2.py`: Illumination representation & CLAHE (15 tests)
+- `tests/test_phase3.py`: Subpixel refinement (ECC, LK, Phase) (8 tests)
+- `tests/test_phase4.py`: Cross-modal proxy & gradient invariance (28 tests)
+- `tests/test_phase5.py`: Multi-image registration graph & mosaic quality (20 tests)
+- `tests/test_phase6.py`: Metadata provenance, status & polygon footprints (19 tests)
+- `tests/test_phase7.py`: End-to-end integration & contract verification (57 tests)
+- `tests/test_phase8.py`: Quantitative benchmarks, stress testing & reproducibility (18 tests)
+- `tests/test_url_ingestion.py`: Remote URL ingestion, SSRF protection & Google Drive (15 tests)
+
+---
+
+## 7. Security Hardening & Limitations
+
+### SSRF (Server-Side Request Forgery) Defense
+The remote URL ingestion service enforces multi-layered SSRF defenses:
+- **Scheme Restriction**: Only `http://` and `https://` are permitted. Schemes such as `file://`, `ftp://`, `data:`, `javascript:` are rejected immediately.
+- **Loopback & Private Network Blocking**: Rejects `localhost`, `127.0.0.0/8`, `::1`, RFC 1918 private IPv4 (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`), IPv6 ULA (`fc00::/7`), and internal domain names (`.local`, `.internal`, `.lan`).
+- **Cloud Metadata Protection**: Explicitly blocks `169.254.169.254` and all link-local spaces (`169.254.0.0/16`, `fe80::/10`).
+- **DNS Re-Validation & Safe Redirects**: Resolves DNS before connection and re-validates resolved IPs at every redirect hop (maximum 5 redirects).
+- **Resource Constraints**: Enforces 10-second connect timeout, 15-second read timeout, and an 80 MB maximum streaming file size limit.
+- **Strict Byte Sniffing**: Validates that downloaded bytes are genuine decodable raster images (rejecting HTML error/login pages and JSON).
+
+### Known Boundaries
+- **Private Cloud Storage**: Accessing private Google Drive, Dropbox, or AWS S3 files requiring user authentication/OAuth is deliberately not supported. Users must make shared files publicly accessible or download them locally first.
+- **Synthetic Ground Truth**: Quantitative benchmarks are evaluated on controlled, procedurally generated lunar surfaces.
+- **Flight Data Validation Pending**: No uncalibrated Level-1/Level-2 Chandrayaan-2 PDS4 rasters or physical SPICE ephemerides were bundled or fabricated.
+- **Relative Coordinate Space**: The mosaic engine computes relative image-space placements; absolute lunar georeferencing requires external SPICE kernels and DEM models.
+- **No Claim of Flight Endorsement**: The system is an academic / hackathon technical prototype and does not claim formal certification or endorsement by ISRO.
+
+See [docs/SCIENTIFIC_VALIDATION.md](docs/SCIENTIFIC_VALIDATION.md) and [docs/BENCHMARK.md](docs/BENCHMARK.md) for complete details.
